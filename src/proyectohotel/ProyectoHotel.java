@@ -14,7 +14,7 @@ public class ProyectoHotel {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void mains(String[] args) {
         Sistema sistema = new Sistema();
         sistema.iniciar();
     }
