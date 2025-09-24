@@ -3,6 +3,8 @@ package Formularios;
 
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import proyectohotel.Usuario;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -20,12 +22,44 @@ public class FrmLogin extends javax.swing.JFrame {
      */
     public FrmLogin() {
         initComponents();
+        llenarItems();
+    }
+    public void llenarItems(){
         lbLogo.setText("");
         txtUser.setText("");
         txtPasword.setText("");
         ImageIcon logo = new ImageIcon("src/IMG/Logo.png");
         Image img = logo.getImage().getScaledInstance(lbLogo.getWidth(), lbLogo.getHeight(), Image.SCALE_SMOOTH);
         lbLogo.setIcon(new ImageIcon(img));
+    }
+    public void IniciarSesion(){
+        Usuario usuario = new Usuario();
+        String correo = txtUser.getText();
+        String contraseña = String.valueOf(txtPasword.getPassword());
+        if (correo.isEmpty()){
+            JOptionPane.showMessageDialog(null, "El Usuario no puede estar vacio");
+        }else{
+            if (correo.endsWith("@gmail.com")) {
+                if (contraseña.isEmpty()){
+                JOptionPane.showMessageDialog(null, "La Contraseña no puede estar vacia");
+                }else{
+                    String UsuarioVerificado = usuario.IniciarSesion(correo, contraseña);
+                    if (UsuarioVerificado != null){
+                        JOptionPane.showMessageDialog(null, "Positivo" + UsuarioVerificado);
+                        FrmInicio inicio = new FrmInicio(Integer.parseInt(UsuarioVerificado));
+                        inicio.setVisible(true);
+                        inicio.setLocationRelativeTo(null);
+                        this.setVisible(false);
+                        }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Negativo" + UsuarioVerificado);
+                        }
+                    }
+
+            }else{
+                JOptionPane.showMessageDialog(null, "El correo debe terminar en @gmail.com");
+            }
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -66,6 +100,11 @@ public class FrmLogin extends javax.swing.JFrame {
         txtPasword.setText("jPasswordField1");
 
         btnIniciarSesion.setText("Iniciar Sesion");
+        btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIniciarSesionActionPerformed(evt);
+            }
+        });
 
         lbOlvidasteTuContraseña.setText("¿Olvidaste tu contraseña?");
         lbOlvidasteTuContraseña.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -143,6 +182,11 @@ public class FrmLogin extends javax.swing.JFrame {
         nuevoForm.setLocationRelativeTo(null);
         this.setVisible(false);
     }//GEN-LAST:event_lbRegistrarseMouseClicked
+
+    private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
+        // TODO add your handling code here:
+        IniciarSesion();
+    }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     /**
      * @param args the command line arguments

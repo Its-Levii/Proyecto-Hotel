@@ -3,12 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package proyectohotel;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -17,19 +16,24 @@ import javax.swing.JOptionPane;
  * @author Levi
  */
 public class Usuario {
+
+    String urlBase = "jdbc:mysql://localhost:3306/hotel";
+    String usuarioBase = "root";
+    String contraseñaBase = "cbn2016";
+        
     private String nombre;
     private String apellido;
     private String genero;
     private String correo;
     private String contraseña;
-    
-    private static SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
     private String fechaNacimiento;
- 
     private String departamento;
     private String ciudad;
     private String rol;
 
+        public Usuario(){
+            
+        }
     public Usuario(String nombre, String apellido, String genero,String correo, String contraseña, String fechaNacimiento, String departamento, String ciudad, String rol) {
         this.nombre = nombre;
         this.apellido = apellido;
@@ -43,12 +47,8 @@ public class Usuario {
     }
     
     public void Conexion(){
-        String url = "jdbc:mysql://localhost:3306/hotel"; // cambia por tu BD
-        String usuario = "root"; // o el tuyo
-        String contraseña = "cbn2016";
-
         try {
-            Connection conexion = DriverManager.getConnection(url, usuario, contraseña);
+            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseña);
             System.out.println("✅ Conectado exitosamente.");
             conexion.close();
             
@@ -57,30 +57,27 @@ public class Usuario {
         }
     }
     public void Registrar(){
-        String urlBase = "jdbc:mysql://localhost:3306/hotel"; // cambia por tu BD
-        String usuarioBase = "root"; // o el tuyo
-        String contraseñaBase = "cbn2016";
         try {
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
 
-            // SQL con parámetros
+
             String sql = "INSERT INTO usuario (nombre, apellido, genero, correo, contrasena, fecha_nacimiento, departamento, ciudad) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-            // PreparedStatement para insertar
-            PreparedStatement ps = conexion.prepareStatement(sql);
 
-            // Datos a insertar
-            ps.setString(1, nombre);
-            ps.setString(2, apellido);
-            ps.setString(3, genero);
-            ps.setString(4, correo);
-            ps.setString(5, contraseña);
-            ps.setString(6, fechaNacimiento);
-            ps.setString(7, departamento);
-            ps.setString(8, ciudad);
+            PreparedStatement Enviar = conexion.prepareStatement(sql);
 
-            // Ejecutar
-            int filasAfectadas = ps.executeUpdate();
+
+            Enviar.setString(1, nombre);
+            Enviar.setString(2, apellido);
+            Enviar.setString(3, genero);
+            Enviar.setString(4, correo);
+            Enviar.setString(5, contraseña);
+            Enviar.setString(6, fechaNacimiento);
+            Enviar.setString(7, departamento);
+            Enviar.setString(8, ciudad);
+
+
+            int filasAfectadas = Enviar.executeUpdate();
 
             if (filasAfectadas > 0) {
                 System.out.println("✅ Registro insertado correctamente en la base de datos");
@@ -94,5 +91,51 @@ public class Usuario {
             JOptionPane.showMessageDialog(null, "❌ Error al registrarse");
         }
     }
-}
+    
+    public String IniciarSesion(String correo, String contraseña){
+        try{
+            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
+            
+            String sql = "SELECT * FROM usuario WHERE correo = ? AND contrasena = ?";
+            
+            PreparedStatement Recibir = conexion.prepareStatement(sql);
+            
+            Recibir.setString(1, correo);
+            Recibir.setString(2, contraseña);
+
+            ResultSet resultado = Recibir.executeQuery();
+            if (resultado.next()){
+                return resultado.getString("id");   
+            }
+            else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Error al validar login: " + e.getMessage());
+            return null;
+        }
+        }
+    public String getNombre(int id){
+        try{
+            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
+            
+            String sql = "SELECT * FROM usuario WHERE id = ?";
+            
+            PreparedStatement Recibir = conexion.prepareStatement(sql);
+            
+            Recibir.setString(1, Integer.toString(id));
+
+            ResultSet resultado = Recibir.executeQuery();
+            if (resultado.next()){
+                return resultado.getString("nombre");   
+            }
+            else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Error al validar login: " + e.getMessage());
+            return null;
+        }
+    }
+    }
 

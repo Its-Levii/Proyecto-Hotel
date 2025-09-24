@@ -7,7 +7,6 @@ package Formularios;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -344,29 +343,41 @@ public class FrmRegistrarse extends javax.swing.JFrame {
         String genero = (String) cbGenero.getSelectedItem();
         String correo = txtCorreo.getText();
         String contraseña = String.valueOf(txtContraseña.getPassword());
+        String verificarContraseña = String.valueOf(txtVerificaContraseña.getPassword());
         String fechaDeNacimiento = "";
         String departamento = (String) cbDepartamento.getSelectedItem();
         String ciudad = (String) cbCiudad.getSelectedItem();
         String rol = "usuario";
         try {
-            if (nombre.isEmpty() || apellido.isEmpty() || cbGenero.getSelectedIndex()== 0 || correo.isEmpty() || contraseña.isEmpty() || 
+            if (nombre.isEmpty() || apellido.isEmpty() || cbGenero.getSelectedIndex()== 0 || correo.isEmpty() || contraseña.isEmpty() || verificarContraseña.isEmpty() ||
                     cbDia.getSelectedIndex()== 0 || cbMes.getSelectedIndex()== 0 || cbAño.getSelectedIndex()== 0 || cbDepartamento.getSelectedIndex()== 0 || cbCiudad.getSelectedIndex()== 0){
                 JOptionPane.showMessageDialog(null, "Faltan campos por completar");
                 
                 System.out.println("Todos los parametros deben estar llenos");
             }
             else{
-                try {
-                        String Dia = String.format("%02d", Integer.parseInt((String)cbDia.getSelectedItem()));
-                        String Mes =  String.format("%02d", cbMes.getSelectedIndex());
-                        String Año = (String) cbAño.getSelectedItem();          
-                        fechaDeNacimiento = String.format("%s/%s/%s", Año, Mes, Dia);
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Fecha Mal Puseta");
+                if (contraseña.equals(verificarContraseña)){
+                    if (correo.endsWith("@gmail.com")) {
+                        try {
+                            String Dia = String.format("%02d", Integer.parseInt((String)cbDia.getSelectedItem()));
+                            String Mes =  String.format("%02d", cbMes.getSelectedIndex());
+                            String Año = (String) cbAño.getSelectedItem();          
+                            fechaDeNacimiento = String.format("%s/%s/%s", Año, Mes, Dia);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "Fecha Mal Puseta");
+                    }
+                    Usuario usuario = new Usuario(nombre, apellido, genero, correo, contraseña, fechaDeNacimiento, departamento, ciudad, rol);
+                    System.out.println("Enviado correctamente a Usuario");
+                    usuario.Registrar();    
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El correo debe terminar en @gmail.com");
+                    }
                 }
-                Usuario usuario = new Usuario(nombre, apellido, genero, correo, contraseña, fechaDeNacimiento, departamento, ciudad, rol);
-                System.out.println("Enviado correctamente a Usuario");
-                usuario.Registrar();
+                else{
+                    JOptionPane.showMessageDialog(null, "Las Contraseñas No Coinciden!!");
+                    System.out.println(contraseña +" La Otra "+ verificarContraseña);
+                }
+                
             }
             
         } catch (Exception e) {
