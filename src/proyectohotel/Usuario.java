@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,13 +24,13 @@ public class Usuario {
     private String contraseña;
     
     private static SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
-    private Calendar fechaNacimiento = Calendar.getInstance();
+    private String fechaNacimiento;
  
     private String departamento;
     private String ciudad;
     private String rol;
 
-    public Usuario(String nombre, String apellido, String genero,String correo, String contraseña, Calendar fechaNacimiento, String departamento, String ciudad, String rol) {
+    public Usuario(String nombre, String apellido, String genero,String correo, String contraseña, String fechaNacimiento, String departamento, String ciudad, String rol) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.genero = genero;
@@ -69,20 +70,28 @@ public class Usuario {
             PreparedStatement ps = conexion.prepareStatement(sql);
 
             // Datos a insertar
-            ps.setString(1, "Juan Pérez");
-            ps.setString(2, "juan@gmail.com");
+            ps.setString(1, nombre);
+            ps.setString(2, apellido);
+            ps.setString(3, genero);
+            ps.setString(4, correo);
+            ps.setString(5, contraseña);
+            ps.setString(6, fechaNacimiento);
+            ps.setString(7, departamento);
+            ps.setString(8, ciudad);
 
             // Ejecutar
             int filasAfectadas = ps.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("✅ Registro insertado correctamente.");
+                System.out.println("✅ Registro insertado correctamente en la base de datos");
+                JOptionPane.showMessageDialog(null, "✅ Registro insertado correctamente.");
             }
 
             conexion.close();
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al insertar: " + e.getMessage());
+            System.out.println("❌ Error al insertar en la base de datos: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "❌ Error al registrarse");
         }
     }
 }
