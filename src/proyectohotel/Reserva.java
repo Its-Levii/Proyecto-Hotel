@@ -18,6 +18,7 @@ public class Reserva {
     private Calendar fechaEntrada;
     private Calendar fechaSalida;
     private Usuario cliente;
+    private boolean activa;
     
     private static SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
 

@@ -2,6 +2,7 @@ package Formularios;
 
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import proyectohotel.Usuario;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -19,13 +20,15 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
      */
     public FrmPantallaPrincipal() {
         initComponents();
+        Usuario usuario = new Usuario();
+        usuario.Conexion();
         this.setLocationRelativeTo(null);
         lbLogo.setText("");
         lbDescripcion.setText(
 "<html>\n" +
 "  <h2>Bienvenidos a <b>Hotel Ocean Hearth</b></h2>\n" +
 "  <p>En Hotel Ocean Hearth, cada detalle ha sido pensado para que tu estancia sea una experiencia inolvidable.<br>\n" +
-"  Ubicados en el corazón de la ciudad, te ofrecemos el equilibrio perfecto entre confort, elegancia y hospitalidad.</p>\n" +
+"  Ubicados junto al mar de la ciudad, te ofrecemos el equilibrio perfecto entre confort, elegancia y hospitalidad.</p>\n" +
 "  <p>Desde el primer momento, nuestro equipo estará encantado de recibirte con la calidez que nos caracteriza.<br>\n" +
 "  Ya sea que viajes por placer o negocios, encontrarás en nosotros un espacio acogedor, servicios de alta calidad y la atención personalizada que mereces.</p>\n" +
 "  <p><i>Bienvenido a tu casa lejos de casa.</i></p>\n" +
@@ -107,17 +110,13 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         // TODO add your handling code here:
-        FrmLogin nuevoForm = new FrmLogin();
-        nuevoForm.setVisible(true);
-        nuevoForm.setLocationRelativeTo(null);
+        new FrmLogin().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
         // TODO add your handling code here:
-        FrmRegistrarse nuevoForm = new FrmRegistrarse();
-        nuevoForm.setVisible(true);
-        nuevoForm.setLocationRelativeTo(null);
+        new FrmRegistrarse().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 

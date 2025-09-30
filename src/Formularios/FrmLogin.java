@@ -22,6 +22,7 @@ public class FrmLogin extends javax.swing.JFrame {
      */
     public FrmLogin() {
         initComponents();
+        this.setLocationRelativeTo(null);
         llenarItems();
     }
     public void llenarItems(){
@@ -45,14 +46,22 @@ public class FrmLogin extends javax.swing.JFrame {
                 }else{
                     String UsuarioVerificado = usuario.IniciarSesion(correo, contraseña);
                     if (UsuarioVerificado != null){
-                        JOptionPane.showMessageDialog(null, "Positivo" + UsuarioVerificado);
-                        FrmInicio inicio = new FrmInicio(Integer.parseInt(UsuarioVerificado));
-                        inicio.setVisible(true);
-                        inicio.setLocationRelativeTo(null);
-                        this.setVisible(false);
+                        String rol = usuario.getRol(Integer.parseInt(UsuarioVerificado));
+                        System.out.println(rol);
+                        System.out.println("Inicio de sesion exitoso");
+                        if (rol.equals("admin")){
+                            new FrmInicioAdmin(Integer.parseInt(UsuarioVerificado)).setVisible(true);
+                            this.setVisible(false);
+                        }else if(rol.equals("empleado")){
+                            new FrmInicioEmpleado(Integer.parseInt(UsuarioVerificado)).setVisible(true);
+                            this.setVisible(false);                            
+                        }else{
+                            new FrmInicioCliente(Integer.parseInt(UsuarioVerificado)).setVisible(true);
+                            this.setVisible(false);                      
+                        }
                         }
                     else{
-                        JOptionPane.showMessageDialog(null, "Negativo" + UsuarioVerificado);
+                        JOptionPane.showMessageDialog(null, "Cuenta no encontrada");
                         }
                     }
 
@@ -177,9 +186,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
     private void lbRegistrarseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbRegistrarseMouseClicked
         // TODO add your handling code here:
-        FrmRegistrarse nuevoForm = new FrmRegistrarse();
-        nuevoForm.setVisible(true);
-        nuevoForm.setLocationRelativeTo(null);
+        new FrmRegistrarse().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_lbRegistrarseMouseClicked
 

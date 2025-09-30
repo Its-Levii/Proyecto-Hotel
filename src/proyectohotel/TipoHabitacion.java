@@ -3,29 +3,96 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package proyectohotel;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Levi
  */
 public class TipoHabitacion {
+    String urlBase = "jdbc:mysql://localhost:3306/hotel";
+    String usuarioBase = "root";
+    String contraseñaBase = "cbn2016";
+    
+    
     private String nombre;
     private String descripcion;
-    private double tarifa;
+    private String tarifa;
 
-    public TipoHabitacion(String nombre, String descripcion, double tarifa) {
+    public TipoHabitacion(){
+        
+    }
+    public TipoHabitacion(String nombre, String descripcion, String tarifa) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.tarifa = tarifa;
     }
+    
+    public boolean insertarTipo() {
+        try {
+            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
 
-    public String getNombre() { return nombre; }
-    public String getDescripcion() { return descripcion; }
-    public double getTarifa() { return tarifa; }
 
-    public void mostrarTipo() {
-        System.out.println("Tipo: " + nombre + " | Tarifa: $" + tarifa);
-        System.out.println("Descripción: " + descripcion);
+            String sql = "INSERT INTO tipohabitacion (nombre, descripcion, tarifa) VALUES (?, ?, ?)";
+
+
+            PreparedStatement Enviar = conexion.prepareStatement(sql);
+
+
+            Enviar.setString(1, nombre);
+            Enviar.setString(2, descripcion);
+            Enviar.setString(3, tarifa);
+
+
+            int filasAfectadas = Enviar.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("✅ Registro insertado correctamente en la base de datos");
+                JOptionPane.showMessageDialog(null, "✅ Habitacion insertada correctamente.");
+            }
+            conexion.close();
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("❌ Error al insertar en la base de datos: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "❌ Error al Agregar habitacion");
+            return false;
+        }
+    }
+    
+    public ArrayList<String[]> mostrarHabitaciones(){
+        ArrayList<String[]> lista = new ArrayList<>();
+        try{
+            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
+            
+            String sql = "SELECT * FROM tipohabitacion";
+            
+            PreparedStatement Recibir = conexion.prepareStatement(sql);
+            ResultSet resultado = Recibir.executeQuery();
+            
+            
+            while (resultado.next()) {
+            String[] fila = new String[4];
+            fila[0] = resultado.getString("id");
+            fila[1] = resultado.getString("nombre");
+            fila[2] = resultado.getString("descripcion");
+            fila[3] = resultado.getString("tarifa");
+
+            lista.add(fila);
+            }
+
+            
+
+            return lista;
+        } catch (Exception e) {
+            System.out.println("Error al mostrar habitaciones: " + e.getMessage());
+            return null;
+        }
     }
 }
 

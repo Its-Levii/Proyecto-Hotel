@@ -30,6 +30,7 @@ public class FrmRegistrarse extends javax.swing.JFrame {
     Map<String, String[]> ComboDepartamentos = new HashMap<>();
     public FrmRegistrarse() {
         initComponents();
+        this.setLocationRelativeTo(null);
         llenarDepartamentos();
         llenarItems();
     }
@@ -368,7 +369,10 @@ public class FrmRegistrarse extends javax.swing.JFrame {
                     }
                     Usuario usuario = new Usuario(nombre, apellido, genero, correo, contraseña, fechaDeNacimiento, departamento, ciudad, rol);
                     System.out.println("Enviado correctamente a Usuario");
-                    usuario.Registrar();    
+                    boolean registrado = usuario.Registrar();
+                    if (registrado){
+                        llenarItems();   
+                    }
                     } else {
                         JOptionPane.showMessageDialog(null, "El correo debe terminar en @gmail.com");
                     }
@@ -383,9 +387,6 @@ public class FrmRegistrarse extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Error al enviar a Usuario");
         }
-        
-        SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
-        Calendar fechaNacimiento = Calendar.getInstance();
 
         
         
@@ -648,9 +649,7 @@ public class FrmRegistrarse extends javax.swing.JFrame {
 
     private void lbIniciarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbIniciarSesionMouseClicked
         // TODO add your handling code here:
-        FrmLogin nuevoForm = new FrmLogin();
-        nuevoForm.setVisible(true);
-        nuevoForm.setLocationRelativeTo(null);
+        new FrmLogin().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_lbIniciarSesionMouseClicked
 
