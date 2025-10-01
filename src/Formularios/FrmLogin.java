@@ -49,16 +49,8 @@ public class FrmLogin extends javax.swing.JFrame {
                         String rol = usuario.getRol(Integer.parseInt(UsuarioVerificado));
                         System.out.println(rol);
                         System.out.println("Inicio de sesion exitoso");
-                        if (rol.equals("admin")){
-                            new FrmInicioAdmin(Integer.parseInt(UsuarioVerificado)).setVisible(true);
-                            this.setVisible(false);
-                        }else if(rol.equals("empleado")){
-                            new FrmInicioEmpleado(Integer.parseInt(UsuarioVerificado)).setVisible(true);
-                            this.setVisible(false);                            
-                        }else{
-                            new FrmInicioCliente(Integer.parseInt(UsuarioVerificado)).setVisible(true);
-                            this.setVisible(false);                      
-                        }
+                        new FrmInicio(Integer.parseInt(UsuarioVerificado)).setVisible(true);
+                        this.setVisible(false);
                         }
                     else{
                         JOptionPane.showMessageDialog(null, "Cuenta no encontrada");

@@ -53,6 +53,12 @@ public void llenarInfoUsuario(int id){
         this.ciudad = usuario.getCiudad(id);
         this.rol = usuario.getRol(id);
         lbNombre.setText(nombre);
+        lbApellido.setText(apellido);
+        lbGenero.setText(genero);
+        lbFechaDeNacimiento.setText(fechaDeNacimiento);
+        lbDepartamento.setText(departamento);
+        lbCiudad.setText(ciudad);
+        lbRol.setText(rol);
         ImageIcon logo;
         if (rol.equals("admin")){
             logo = new ImageIcon("src/IMG/admin.png");
@@ -74,33 +80,135 @@ public void llenarInfoUsuario(int id){
     private void initComponents() {
 
         lbLogo = new javax.swing.JLabel();
+        TituloNombre = new javax.swing.JLabel();
+        TituloApellido = new javax.swing.JLabel();
+        TituloGenero = new javax.swing.JLabel();
+        TituloFecha = new javax.swing.JLabel();
+        lbFechaDeNacimiento = new javax.swing.JLabel();
+        TituloDepartamento = new javax.swing.JLabel();
+        TituloCiudad = new javax.swing.JLabel();
+        lbDepartamento = new javax.swing.JLabel();
+        lbCiudad = new javax.swing.JLabel();
         lbNombre = new javax.swing.JLabel();
+        lbApellido = new javax.swing.JLabel();
+        lbGenero = new javax.swing.JLabel();
+        lbRol = new javax.swing.JLabel();
 
         lbLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbLogo.setText("Logo");
 
-        lbNombre.setText("jLabel1");
+        TituloNombre.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        TituloNombre.setText("Nombre");
+
+        TituloApellido.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        TituloApellido.setText("Apellido");
+
+        TituloGenero.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        TituloGenero.setText("Genero");
+
+        TituloFecha.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        TituloFecha.setText("Fecha de nacimiento");
+
+        lbFechaDeNacimiento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbFechaDeNacimiento.setText("Fecha");
+
+        TituloDepartamento.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        TituloDepartamento.setText("Departamento");
+
+        TituloCiudad.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        TituloCiudad.setText("Ciudad");
+
+        lbDepartamento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbDepartamento.setText("Departamento");
+
+        lbCiudad.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbCiudad.setText("Ciudad");
+
+        lbNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbNombre.setText("Nombre");
+
+        lbApellido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbApellido.setText("Apellido");
+
+        lbGenero.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbGenero.setText("Genero");
+
+        lbRol.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbRol.setText("Rol");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(79, 79, 79)
-                .addComponent(lbNombre)
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(lbLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addComponent(lbRol)))
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(TituloGenero)
+                    .addComponent(TituloFecha)
+                    .addComponent(lbFechaDeNacimiento)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(TituloDepartamento)
+                                .addComponent(lbDepartamento))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lbCiudad)
+                                .addComponent(TituloCiudad)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(TituloNombre)
+                                .addComponent(lbNombre))
+                            .addGap(55, 55, 55)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lbApellido)
+                                .addComponent(TituloApellido))))
+                    .addComponent(lbGenero))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(lbNombre)
-                .addContainerGap(232, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(lbLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(lbLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lbRol)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(TituloNombre)
+                            .addComponent(TituloApellido))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbNombre)
+                            .addComponent(lbApellido))
+                        .addGap(13, 13, 13)
+                        .addComponent(TituloGenero)
+                        .addGap(4, 4, 4)
+                        .addComponent(lbGenero)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(TituloFecha)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbFechaDeNacimiento)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(TituloDepartamento)
+                            .addComponent(TituloCiudad))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbDepartamento)
+                            .addComponent(lbCiudad))
+                        .addContainerGap(26, Short.MAX_VALUE))))
         );
 
         pack();
@@ -108,7 +216,19 @@ public void llenarInfoUsuario(int id){
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel TituloApellido;
+    private javax.swing.JLabel TituloCiudad;
+    private javax.swing.JLabel TituloDepartamento;
+    private javax.swing.JLabel TituloFecha;
+    private javax.swing.JLabel TituloGenero;
+    private javax.swing.JLabel TituloNombre;
+    private javax.swing.JLabel lbApellido;
+    private javax.swing.JLabel lbCiudad;
+    private javax.swing.JLabel lbDepartamento;
+    private javax.swing.JLabel lbFechaDeNacimiento;
+    private javax.swing.JLabel lbGenero;
     private javax.swing.JLabel lbLogo;
     private javax.swing.JLabel lbNombre;
+    private javax.swing.JLabel lbRol;
     // End of variables declaration//GEN-END:variables
 }

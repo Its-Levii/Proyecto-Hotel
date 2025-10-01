@@ -7,8 +7,7 @@ package Formularios;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.YearMonth;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +24,7 @@ public class FrmRegistrarse extends javax.swing.JFrame {
     /**
      * Creates new form FrmRegistrarse
      */
+    boolean completo = false;
     String[] ComboGenero = {"Masculino", "Femenino", "Otro"};
     String[] ComboMeses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
     Map<String, String[]> ComboDepartamentos = new HashMap<>();
@@ -264,6 +264,7 @@ public class FrmRegistrarse extends javax.swing.JFrame {
         });
     }
     public void llenarItems(){
+        completo = false;
         txtNombre.setText("");
         txtApellido.setText("");
         txtCorreo.setText("");
@@ -311,20 +312,19 @@ public class FrmRegistrarse extends javax.swing.JFrame {
             cbDepartamento.setSelectedIndex(0);
             actualizarCiudades((String) cbDepartamento.getSelectedItem());
         }
-        
+        completo = true;
     }
     private void actualizarDias(){
-        String seleccionado = (String) cbMes.getSelectedItem();
         cbDia.removeAllItems();
         cbDia.addItem("Dia");
-        if (seleccionado == "Febrero") {
-            for (int i = 1; i <= 28; i++) {
+        if (completo){
+            if (cbAño.getSelectedIndex() != 0 && cbMes.getSelectedIndex() != 0){
+                int Año = Integer.parseInt((String)cbAño.getSelectedItem());
+                int Mes = cbMes.getSelectedIndex();
+                int Dia = YearMonth.of(Año, Mes).lengthOfMonth();
+                for (int i = 1; i <= Dia; i++) {
                 cbDia.addItem(Integer.toString(i));
-            }
-        }
-        else if (seleccionado != "Mes" && seleccionado != "Febrero"){
-            for (int i = 1; i <= 31; i++) {
-                cbDia.addItem(Integer.toString(i));
+                }
             }
         }
     }
@@ -388,9 +388,6 @@ public class FrmRegistrarse extends javax.swing.JFrame {
             System.out.println("Error al enviar a Usuario");
         }
 
-        
-        
-        
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -481,6 +478,11 @@ public class FrmRegistrarse extends javax.swing.JFrame {
         });
 
         cbAño.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbAño.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAñoActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Departamento");
 
@@ -669,6 +671,11 @@ public class FrmRegistrarse extends javax.swing.JFrame {
         // TODO add your handling code here:
         actualizarDias();
     }//GEN-LAST:event_cbMesActionPerformed
+
+    private void cbAñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAñoActionPerformed
+        // TODO add your handling code here:
+        actualizarDias();
+    }//GEN-LAST:event_cbAñoActionPerformed
 
     /**
      * @param args the command line arguments

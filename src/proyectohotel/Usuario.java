@@ -61,7 +61,7 @@ public class Usuario {
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
 
 
-            String sql = "INSERT INTO usuario (nombre, apellido, genero, correo, contrasena, fecha_nacimiento, departamento, ciudad) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO usuario (nombre, apellido, genero, correo, contrasena, fecha_nacimiento, departamento, ciudad, rol) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 
             PreparedStatement Enviar = conexion.prepareStatement(sql);
@@ -75,6 +75,7 @@ public class Usuario {
             Enviar.setString(6, fechaNacimiento);
             Enviar.setString(7, departamento);
             Enviar.setString(8, ciudad);
+            Enviar.setString(9, rol);
 
 
             int filasAfectadas = Enviar.executeUpdate();
@@ -163,7 +164,7 @@ public class Usuario {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("Error recibir nombre: " + e.getMessage());
+            System.out.println("Error al recibir apellido: " + e.getMessage());
             return null;
         }
     }
@@ -186,7 +187,7 @@ public class Usuario {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("Error recibir nombre: " + e.getMessage());
+            System.out.println("Error al recibir genero: " + e.getMessage());
             return null;
         }
     }
@@ -209,7 +210,7 @@ public class Usuario {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("Error recibir nombre: " + e.getMessage());
+            System.out.println("Error al recibir correo: " + e.getMessage());
             return null;
         }
     }
@@ -232,7 +233,7 @@ public class Usuario {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("Error recibir nombre: " + e.getMessage());
+            System.out.println("Error al recibir contraseña: " + e.getMessage());
             return null;
         }
     }
@@ -255,7 +256,7 @@ public class Usuario {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("Error recibir nombre: " + e.getMessage());
+            System.out.println("Error al recibir fecha de nacimiento: " + e.getMessage());
             return null;
         }
     }
@@ -278,7 +279,7 @@ public class Usuario {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("Error recibir nombre: " + e.getMessage());
+            System.out.println("Error al recibir departamento: " + e.getMessage());
             return null;
         }
     }
@@ -301,7 +302,7 @@ public class Usuario {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("Error recibir nombre: " + e.getMessage());
+            System.out.println("Error al recibir ciudad: " + e.getMessage());
             return null;
         }
     }
@@ -324,7 +325,7 @@ public class Usuario {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("Error recibir nombre: " + e.getMessage());
+            System.out.println("Error al recibir rol: " + e.getMessage());
             return null;
         }
     }

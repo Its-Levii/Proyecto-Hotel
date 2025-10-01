@@ -5,23 +5,44 @@
 package Formularios;
 
 import JIFormularios.JIFrmAgregarHabitacion;
+import JIFormularios.JIFrmContratar;
 import JIFormularios.JIFrmMostrarHabitaciones;
 import JIFormularios.JIFrmPerfil;
+import proyectohotel.Usuario;
 
 /**
  *
  * @author Usuario
  */
-public class FrmInicioAdmin extends javax.swing.JFrame {
+public class FrmInicio extends javax.swing.JFrame {
 
     /**
      * Creates new form FrmInicioAdmin
      */
     int id;
-    public FrmInicioAdmin(int id) {
+    public FrmInicio(int id) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.id = id;
+        llenarItems();
+        
+    }
+    public void llenarItems(){
+        Usuario usuario = new Usuario();
+        System.out.println(usuario.getRol(id));
+        if (usuario.getRol(id).equals("admin")){
+            MenuReservas.setVisible(false);
+            MenuOpciones.setVisible(false);
+        }
+        else if (usuario.getRol(id).equals("empleado")){
+            MenuAdmin.setVisible(false);
+            MenuReportes.setVisible(false);
+            MenuReservas.setVisible(false);
+        }else{
+            MenuAdmin.setVisible(false);
+            MenuReportes.setVisible(false);
+            MenuOpciones.setVisible(false);
+        }
     }
     public void CerrarSesion(){
         new FrmLogin().setVisible(true);
@@ -37,14 +58,31 @@ public class FrmInicioAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
         DesktopAdmin = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        MenuOpciones = new javax.swing.JMenu();
+        MenuPerfil = new javax.swing.JMenu();
         MnPerfil = new javax.swing.JMenuItem();
         MnCerrarSesion = new javax.swing.JMenuItem();
         MenuAdmin = new javax.swing.JMenu();
         MnAgregarHabitacion = new javax.swing.JMenuItem();
         MnMostrarHabitacion = new javax.swing.JMenuItem();
+        MnContratar = new javax.swing.JMenuItem();
+        MenuReportes = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        MenuReservas = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        MenuOpciones = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -61,18 +99,18 @@ public class FrmInicioAdmin extends javax.swing.JFrame {
         );
         DesktopAdminLayout.setVerticalGroup(
             DesktopAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 477, Short.MAX_VALUE)
+            .addGap(0, 478, Short.MAX_VALUE)
         );
 
-        MenuOpciones.setText("Opciones");
+        MenuPerfil.setText("Perfil");
 
-        MnPerfil.setText("Perfil");
+        MnPerfil.setText("Ver Perfil");
         MnPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MnPerfilActionPerformed(evt);
             }
         });
-        MenuOpciones.add(MnPerfil);
+        MenuPerfil.add(MnPerfil);
 
         MnCerrarSesion.setText("Cerrar Sesion");
         MnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
@@ -80,9 +118,9 @@ public class FrmInicioAdmin extends javax.swing.JFrame {
                 MnCerrarSesionActionPerformed(evt);
             }
         });
-        MenuOpciones.add(MnCerrarSesion);
+        MenuPerfil.add(MnCerrarSesion);
 
-        jMenuBar1.add(MenuOpciones);
+        jMenuBar1.add(MenuPerfil);
 
         MenuAdmin.setText("Administracion");
 
@@ -94,7 +132,7 @@ public class FrmInicioAdmin extends javax.swing.JFrame {
         });
         MenuAdmin.add(MnAgregarHabitacion);
 
-        MnMostrarHabitacion.setText("Mostrar Habitaciones");
+        MnMostrarHabitacion.setText("Mostrar Tipos De Habitaciones");
         MnMostrarHabitacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MnMostrarHabitacionActionPerformed(evt);
@@ -102,7 +140,57 @@ public class FrmInicioAdmin extends javax.swing.JFrame {
         });
         MenuAdmin.add(MnMostrarHabitacion);
 
+        MnContratar.setText("Contratar Empleado");
+        MnContratar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnContratarActionPerformed(evt);
+            }
+        });
+        MenuAdmin.add(MnContratar);
+
         jMenuBar1.add(MenuAdmin);
+
+        MenuReportes.setText("Reportes");
+
+        jMenuItem2.setText("Habitaciones Disponibles");
+        MenuReportes.add(jMenuItem2);
+
+        jMenuItem8.setText("Reservas Activas");
+        MenuReportes.add(jMenuItem8);
+
+        jMenuItem9.setText("Estadías Activas");
+        MenuReportes.add(jMenuItem9);
+
+        jMenuItem10.setText("Historial de Estadías");
+        MenuReportes.add(jMenuItem10);
+
+        jMenuBar1.add(MenuReportes);
+
+        MenuReservas.setText("Reservas");
+
+        jMenuItem3.setText("Hacer Reserva");
+        MenuReservas.add(jMenuItem3);
+
+        jMenuItem4.setText("Ver Reservas Activas");
+        MenuReservas.add(jMenuItem4);
+
+        jMenuItem5.setText("Ver Historial De Reservas");
+        MenuReservas.add(jMenuItem5);
+
+        jMenuBar1.add(MenuReservas);
+
+        MenuOpciones.setText("Opciones");
+
+        jMenuItem6.setText("Hacer Check-in");
+        MenuOpciones.add(jMenuItem6);
+
+        jMenuItem7.setText("Hacer Check-out");
+        MenuOpciones.add(jMenuItem7);
+
+        jMenuItem11.setText("Habitaciones Disponibles");
+        MenuOpciones.add(jMenuItem11);
+
+        jMenuBar1.add(MenuOpciones);
 
         setJMenuBar(jMenuBar1);
 
@@ -141,7 +229,6 @@ public class FrmInicioAdmin extends javax.swing.JFrame {
     private void MnAgregarHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnAgregarHabitacionActionPerformed
         // TODO add your handling code here:
         JIFrmAgregarHabitacion agregarHabitacion = new JIFrmAgregarHabitacion();
-        System.out.println("Enviado id:" + id);
         DesktopAdmin.add(agregarHabitacion);
         agregarHabitacion.show();
     }//GEN-LAST:event_MnAgregarHabitacionActionPerformed
@@ -149,10 +236,16 @@ public class FrmInicioAdmin extends javax.swing.JFrame {
     private void MnMostrarHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnMostrarHabitacionActionPerformed
         // TODO add your handling code here:
         JIFrmMostrarHabitaciones mostrarHabitacion = new JIFrmMostrarHabitaciones();
-        System.out.println("Enviado id:" + id);
         DesktopAdmin.add(mostrarHabitacion);
         mostrarHabitacion.show();
     }//GEN-LAST:event_MnMostrarHabitacionActionPerformed
+
+    private void MnContratarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnContratarActionPerformed
+        // TODO add your handling code here:
+        JIFrmContratar contratar = new JIFrmContratar();
+        DesktopAdmin.add(contratar);
+        contratar.show();
+    }//GEN-LAST:event_MnContratarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -171,20 +264,21 @@ public class FrmInicioAdmin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmInicioAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmInicioAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmInicioAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmInicioAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmInicioAdmin(0).setVisible(true);
+                new FrmInicio(0).setVisible(true);
             }
         });
     }
@@ -193,10 +287,25 @@ public class FrmInicioAdmin extends javax.swing.JFrame {
     private javax.swing.JDesktopPane DesktopAdmin;
     private javax.swing.JMenu MenuAdmin;
     private javax.swing.JMenu MenuOpciones;
+    private javax.swing.JMenu MenuPerfil;
+    private javax.swing.JMenu MenuReportes;
+    private javax.swing.JMenu MenuReservas;
     private javax.swing.JMenuItem MnAgregarHabitacion;
     private javax.swing.JMenuItem MnCerrarSesion;
+    private javax.swing.JMenuItem MnContratar;
     private javax.swing.JMenuItem MnMostrarHabitacion;
     private javax.swing.JMenuItem MnPerfil;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     // End of variables declaration//GEN-END:variables
 }
