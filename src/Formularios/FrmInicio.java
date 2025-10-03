@@ -5,8 +5,9 @@
 package Formularios;
 
 import JIFormularios.JIFrmAgregarHabitacion;
+import JIFormularios.JIFrmCrearTipoHabitacion;
 import JIFormularios.JIFrmContratar;
-import JIFormularios.JIFrmMostrarHabitaciones;
+import JIFormularios.JIFrmMostrarTipoHabitaciones;
 import JIFormularios.JIFrmPerfil;
 import proyectohotel.Usuario;
 
@@ -65,8 +66,9 @@ public class FrmInicio extends javax.swing.JFrame {
         MnPerfil = new javax.swing.JMenuItem();
         MnCerrarSesion = new javax.swing.JMenuItem();
         MenuAdmin = new javax.swing.JMenu();
-        MnAgregarHabitacion = new javax.swing.JMenuItem();
+        MnCrearTipoHabitacion = new javax.swing.JMenuItem();
         MnMostrarHabitacion = new javax.swing.JMenuItem();
+        MnAgregarHabitacion = new javax.swing.JMenuItem();
         MnContratar = new javax.swing.JMenuItem();
         MenuReportes = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -78,8 +80,8 @@ public class FrmInicio extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         MenuOpciones = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
+        MnCheckIn = new javax.swing.JMenuItem();
+        MnCheckOut = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
@@ -124,13 +126,13 @@ public class FrmInicio extends javax.swing.JFrame {
 
         MenuAdmin.setText("Administracion");
 
-        MnAgregarHabitacion.setText("Agregar Habitacion");
-        MnAgregarHabitacion.addActionListener(new java.awt.event.ActionListener() {
+        MnCrearTipoHabitacion.setText("Crear Tipo De Habitacion");
+        MnCrearTipoHabitacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnAgregarHabitacionActionPerformed(evt);
+                MnCrearTipoHabitacionActionPerformed(evt);
             }
         });
-        MenuAdmin.add(MnAgregarHabitacion);
+        MenuAdmin.add(MnCrearTipoHabitacion);
 
         MnMostrarHabitacion.setText("Mostrar Tipos De Habitaciones");
         MnMostrarHabitacion.addActionListener(new java.awt.event.ActionListener() {
@@ -139,6 +141,14 @@ public class FrmInicio extends javax.swing.JFrame {
             }
         });
         MenuAdmin.add(MnMostrarHabitacion);
+
+        MnAgregarHabitacion.setText("Agregar Habitacion");
+        MnAgregarHabitacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnAgregarHabitacionActionPerformed(evt);
+            }
+        });
+        MenuAdmin.add(MnAgregarHabitacion);
 
         MnContratar.setText("Contratar Empleado");
         MnContratar.addActionListener(new java.awt.event.ActionListener() {
@@ -181,11 +191,16 @@ public class FrmInicio extends javax.swing.JFrame {
 
         MenuOpciones.setText("Opciones");
 
-        jMenuItem6.setText("Hacer Check-in");
-        MenuOpciones.add(jMenuItem6);
+        MnCheckIn.setText("Hacer Check-in");
+        MnCheckIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnCheckInActionPerformed(evt);
+            }
+        });
+        MenuOpciones.add(MnCheckIn);
 
-        jMenuItem7.setText("Hacer Check-out");
-        MenuOpciones.add(jMenuItem7);
+        MnCheckOut.setText("Hacer Check-out");
+        MenuOpciones.add(MnCheckOut);
 
         jMenuItem11.setText("Habitaciones Disponibles");
         MenuOpciones.add(jMenuItem11);
@@ -226,16 +241,16 @@ public class FrmInicio extends javax.swing.JFrame {
         CerrarSesion();
     }//GEN-LAST:event_formWindowClosing
 
-    private void MnAgregarHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnAgregarHabitacionActionPerformed
+    private void MnCrearTipoHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCrearTipoHabitacionActionPerformed
         // TODO add your handling code here:
-        JIFrmAgregarHabitacion agregarHabitacion = new JIFrmAgregarHabitacion();
+        JIFrmCrearTipoHabitacion agregarHabitacion = new JIFrmCrearTipoHabitacion();
         DesktopAdmin.add(agregarHabitacion);
         agregarHabitacion.show();
-    }//GEN-LAST:event_MnAgregarHabitacionActionPerformed
+    }//GEN-LAST:event_MnCrearTipoHabitacionActionPerformed
 
     private void MnMostrarHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnMostrarHabitacionActionPerformed
         // TODO add your handling code here:
-        JIFrmMostrarHabitaciones mostrarHabitacion = new JIFrmMostrarHabitaciones();
+        JIFrmMostrarTipoHabitaciones mostrarHabitacion = new JIFrmMostrarTipoHabitaciones();
         DesktopAdmin.add(mostrarHabitacion);
         mostrarHabitacion.show();
     }//GEN-LAST:event_MnMostrarHabitacionActionPerformed
@@ -246,6 +261,17 @@ public class FrmInicio extends javax.swing.JFrame {
         DesktopAdmin.add(contratar);
         contratar.show();
     }//GEN-LAST:event_MnContratarActionPerformed
+
+    private void MnCheckInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCheckInActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MnCheckInActionPerformed
+
+    private void MnAgregarHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnAgregarHabitacionActionPerformed
+        // TODO add your handling code here:
+        JIFrmAgregarHabitacion agregarHabitacion = new JIFrmAgregarHabitacion();
+        DesktopAdmin.add(agregarHabitacion);
+        agregarHabitacion.show();
+    }//GEN-LAST:event_MnAgregarHabitacionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -292,7 +318,10 @@ public class FrmInicio extends javax.swing.JFrame {
     private javax.swing.JMenu MenuReservas;
     private javax.swing.JMenuItem MnAgregarHabitacion;
     private javax.swing.JMenuItem MnCerrarSesion;
+    private javax.swing.JMenuItem MnCheckIn;
+    private javax.swing.JMenuItem MnCheckOut;
     private javax.swing.JMenuItem MnContratar;
+    private javax.swing.JMenuItem MnCrearTipoHabitacion;
     private javax.swing.JMenuItem MnMostrarHabitacion;
     private javax.swing.JMenuItem MnPerfil;
     private javax.swing.JMenuBar jMenuBar1;
@@ -303,8 +332,6 @@ public class FrmInicio extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     // End of variables declaration//GEN-END:variables

@@ -11,13 +11,13 @@ import proyectohotel.TipoHabitacion;
  *
  * @author Usuario
  */
-public class JIFrmMostrarHabitaciones extends javax.swing.JInternalFrame {
+public class JIFrmMostrarTipoHabitaciones extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form JIFrmMostrarHabitaciones
      */
     String[] encabezado = {"Id","Nombre", "Descripcion", "Tarifa"};
-    public JIFrmMostrarHabitaciones() {
+    public JIFrmMostrarTipoHabitaciones() {
         initComponents();
         llenarItems();
     }

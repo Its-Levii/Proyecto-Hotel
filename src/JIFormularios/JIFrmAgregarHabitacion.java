@@ -4,12 +4,8 @@
  */
 package JIFormularios;
 
-import java.awt.Image;
-import java.text.ParseException;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import proyectohotel.TipoHabitacion;
-import proyectohotel.Usuario;
 
 /**
  *
@@ -18,54 +14,54 @@ import proyectohotel.Usuario;
 public class JIFrmAgregarHabitacion extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form AgregarHabitacion
+     * Creates new form JIFrmAgregarHabitacion
      */
-    
-    public JIFrmAgregarHabitacion(){
+    public JIFrmAgregarHabitacion() {
         initComponents();
-        llenarItems();
-    }
-    public void llenarItems(){
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
+        initComponents();
         try {
            setMaximum(true);
         } catch (Exception e) {
             System.out.println("No se maximizo correctamente, ERROR:" + e);
         }
-        txtTitulo.setText("");
-        txtTarifa.setText("");
-        txtDescripcion.setText("");
+        llenarItems();
     }
-    public void AgregarHabitacion(){
+    public void llenarItems(){
+        txtCantidadHabitaciones.setText("");
+        cbTipoHabitaciones.removeAllItems();
+        cbTipoHabitaciones.addItem(title);
+        TipoHabitacion tipoHabitacion = new TipoHabitacion();
+        for (String[] fila : tipoHabitacion.mostrarHabitaciones()) {
+            cbTipoHabitaciones.addItem(fila[1]);
+        }
+    }
+    public void AgregarTipo(){
+        String Tipo =(String) cbTipoHabitaciones.getSelectedItem();
+        String obtener_cantidad = txtCantidadHabitaciones.getText();
         boolean completo = false;
-        String nombre = txtTitulo.getText();
-        String obtener_tarifa = txtTarifa.getText();
-        double tarifa = 0;
-        String descripcion = txtDescripcion.getText();
-        if (nombre.isEmpty() || obtener_tarifa.isEmpty() || descripcion.isEmpty()){
-            JOptionPane.showMessageDialog(null, "❌ Faltan campos por completar");
-        }
-        else{
-            try {
-                tarifa = Double.parseDouble(obtener_tarifa);
-                completo = true;
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "❌ la tarifa solo debe contener numeros");
-            }
-            if (completo){
-                TipoHabitacion tipoHabitacion = new TipoHabitacion(nombre, descripcion, obtener_tarifa);
-                System.out.println("Enviado correctamente a TipoHabitacion");
-                boolean insertado = tipoHabitacion.insertarTipo();
-                if (insertado){
-                    llenarItems();
+        try{
+            if (cbTipoHabitaciones.getSelectedIndex() == 0 || txtCantidadHabitaciones.getText().trim().isEmpty()){
+                JOptionPane.showMessageDialog(null, "Faltan campos por completar");
+            }else{
+                try {
+                    int cantidad = Integer.parseInt(obtener_cantidad);
+                    completo = true;
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "❌ la cantidad solo debe contener numeros");
                 }
+                if (completo){
+                    
+                }
+ 
             }
+        } catch (Exception e) {
+            
         }
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -76,37 +72,26 @@ public class JIFrmAgregarHabitacion extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        cbTipoHabitaciones = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        txtTitulo = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtDescripcion = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        txtTarifa = new javax.swing.JTextField();
-        btnAgregar = new javax.swing.JButton();
+        txtCantidadHabitaciones = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(430, 340));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setText("Seleccione el tipo de habitacion a agregar");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Agregar tipo de habitacion");
+        cbTipoHabitaciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel2.setText("Titulo de la habitacion");
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setText("¿Cuantas habitaciones va a añadir?");
 
-        txtTitulo.setText("jTextField1");
+        txtCantidadHabitaciones.setText("jTextField1");
 
-        jLabel3.setText("Descripcion");
-
-        txtDescripcion.setText("jTextField2");
-
-        jLabel4.setText("Tarifa");
-
-        txtTarifa.setText("jTextField3");
-
-        btnAgregar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnAgregar.setText("Agregar habitacion");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jButton1.setText("Añadir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -118,61 +103,46 @@ public class JIFrmAgregarHabitacion extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbTipoHabitaciones, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(txtTitulo))
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTarifa)
-                            .addComponent(jLabel4)))
-                    .addComponent(txtDescripcion))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(39, 39, 39))
+                    .addComponent(txtCantidadHabitaciones))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(112, 112, 112)
-                .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(125, 125, 125))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(58, 58, 58))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4))
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbTipoHabitaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCantidadHabitaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addGap(0, 31, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        AgregarHabitacion();
-    }//GEN-LAST:event_btnAgregarActionPerformed
+        AgregarTipo();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
+    private javax.swing.JComboBox<String> cbTipoHabitaciones;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField txtDescripcion;
-    private javax.swing.JTextField txtTarifa;
-    private javax.swing.JTextField txtTitulo;
+    private javax.swing.JTextField txtCantidadHabitaciones;
     // End of variables declaration//GEN-END:variables
 }

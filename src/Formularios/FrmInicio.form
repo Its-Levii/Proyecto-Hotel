@@ -37,12 +37,12 @@
             <Property name="text" type="java.lang.String" value="Administracion"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="MnAgregarHabitacion">
+            <MenuItem class="javax.swing.JMenuItem" name="MnCrearTipoHabitacion">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Agregar Habitacion"/>
+                <Property name="text" type="java.lang.String" value="Crear Tipo De Habitacion"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnAgregarHabitacionActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnCrearTipoHabitacionActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="MnMostrarHabitacion">
@@ -51,6 +51,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnMostrarHabitacionActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="MnAgregarHabitacion">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Agregar Habitacion"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnAgregarHabitacionActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="MnContratar">
@@ -117,12 +125,15 @@
             <Property name="text" type="java.lang.String" value="Opciones"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem6">
+            <MenuItem class="javax.swing.JMenuItem" name="MnCheckIn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Hacer Check-in"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnCheckInActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem7">
+            <MenuItem class="javax.swing.JMenuItem" name="MnCheckOut">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Hacer Check-out"/>
               </Properties>

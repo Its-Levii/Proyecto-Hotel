@@ -91,8 +91,8 @@ public class JIFrmContratar extends javax.swing.JInternalFrame {
         String rol = "empleado";
         boolean todo_bien_puesto = false;
         try {
-            if (nombre.isEmpty() || apellido.isEmpty() || cbGenero.getSelectedIndex()== 0 || correo.isEmpty() || obtener_documento.isEmpty() ||
-                    cbDia.getSelectedIndex()== 0 || cbMes.getSelectedIndex()== 0 || cbAño.getSelectedIndex()== 0 || departamento.isEmpty() || ciudad.isEmpty()){
+            if (nombre.trim().isEmpty() || apellido.trim().isEmpty() || cbGenero.getSelectedIndex()== 0 || correo.isEmpty() || obtener_documento.trim().isEmpty() ||
+                    cbDia.getSelectedIndex()== 0 || cbMes.getSelectedIndex()== 0 || cbAño.getSelectedIndex()== 0 || departamento.trim().isEmpty() || ciudad.trim().isEmpty()){
                 JOptionPane.showMessageDialog(null, "Faltan campos por completar");
                 
                 System.out.println("Todos los parametros deben estar llenos");

@@ -350,7 +350,7 @@ public class FrmRegistrarse extends javax.swing.JFrame {
         String ciudad = (String) cbCiudad.getSelectedItem();
         String rol = "usuario";
         try {
-            if (nombre.isEmpty() || apellido.isEmpty() || cbGenero.getSelectedIndex()== 0 || correo.isEmpty() || contraseña.isEmpty() || verificarContraseña.isEmpty() ||
+            if (nombre.trim().isEmpty() || apellido.trim().isEmpty() || cbGenero.getSelectedIndex()== 0 || correo.isEmpty() || contraseña.trim().isEmpty() || verificarContraseña.trim().isEmpty() ||
                     cbDia.getSelectedIndex()== 0 || cbMes.getSelectedIndex()== 0 || cbAño.getSelectedIndex()== 0 || cbDepartamento.getSelectedIndex()== 0 || cbCiudad.getSelectedIndex()== 0){
                 JOptionPane.showMessageDialog(null, "Faltan campos por completar");
                 

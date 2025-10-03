@@ -23,7 +23,7 @@ public class TipoHabitacion {
     private String nombre;
     private String descripcion;
     private String tarifa;
-
+    
     public TipoHabitacion(){
         
     }

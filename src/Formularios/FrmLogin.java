@@ -37,11 +37,11 @@ public class FrmLogin extends javax.swing.JFrame {
         Usuario usuario = new Usuario();
         String correo = txtUser.getText();
         String contraseña = String.valueOf(txtPasword.getPassword());
-        if (correo.isEmpty()){
+        if (correo.trim().isEmpty()){
             JOptionPane.showMessageDialog(null, "El Usuario no puede estar vacio");
         }else{
             if (correo.endsWith("@gmail.com")) {
-                if (contraseña.isEmpty()){
+                if (contraseña.trim().isEmpty()){
                 JOptionPane.showMessageDialog(null, "La Contraseña no puede estar vacia");
                 }else{
                     String UsuarioVerificado = usuario.IniciarSesion(correo, contraseña);
