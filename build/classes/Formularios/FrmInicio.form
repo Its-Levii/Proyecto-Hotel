@@ -76,10 +76,13 @@
             <Property name="text" type="java.lang.String" value="Reportes"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+            <MenuItem class="javax.swing.JMenuItem" name="MnHabitacionesDisponibles">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Habitaciones Disponibles"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnHabitacionesDisponiblesActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem8">
               <Properties>
@@ -120,9 +123,9 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="MenuOpciones">
+        <Menu class="javax.swing.JMenu" name="MenuRegistro">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Opciones"/>
+            <Property name="text" type="java.lang.String" value="Hacer Registro"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="MnCheckIn">
@@ -138,10 +141,20 @@
                 <Property name="text" type="java.lang.String" value="Hacer Check-out"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem11">
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="MenuOpcionesHabitaciones">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Opciones de Habitaciones"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="MnHabitacionesOcupadas">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Habitaciones Disponibles"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnHabitacionesOcupadasActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

@@ -5,8 +5,10 @@
 package Formularios;
 
 import JIFormularios.JIFrmAgregarHabitacion;
+import JIFormularios.JIFrmCheckIn;
 import JIFormularios.JIFrmCrearTipoHabitacion;
 import JIFormularios.JIFrmContratar;
+import JIFormularios.JIFrmHabitacionesDisponibles;
 import JIFormularios.JIFrmMostrarTipoHabitaciones;
 import JIFormularios.JIFrmPerfil;
 import proyectohotel.Usuario;
@@ -33,7 +35,8 @@ public class FrmInicio extends javax.swing.JFrame {
         System.out.println(usuario.getRol(id));
         if (usuario.getRol(id).equals("admin")){
             MenuReservas.setVisible(false);
-            MenuOpciones.setVisible(false);
+            MenuRegistro.setVisible(false);
+            MenuOpcionesHabitaciones.setVisible(false);
         }
         else if (usuario.getRol(id).equals("empleado")){
             MenuAdmin.setVisible(false);
@@ -42,7 +45,8 @@ public class FrmInicio extends javax.swing.JFrame {
         }else{
             MenuAdmin.setVisible(false);
             MenuReportes.setVisible(false);
-            MenuOpciones.setVisible(false);
+            MenuRegistro.setVisible(false);
+            MenuOpcionesHabitaciones.setVisible(false);
         }
     }
     public void CerrarSesion(){
@@ -71,7 +75,7 @@ public class FrmInicio extends javax.swing.JFrame {
         MnAgregarHabitacion = new javax.swing.JMenuItem();
         MnContratar = new javax.swing.JMenuItem();
         MenuReportes = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        MnHabitacionesDisponibles = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
@@ -79,10 +83,11 @@ public class FrmInicio extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
-        MenuOpciones = new javax.swing.JMenu();
+        MenuRegistro = new javax.swing.JMenu();
         MnCheckIn = new javax.swing.JMenuItem();
         MnCheckOut = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
+        MenuOpcionesHabitaciones = new javax.swing.JMenu();
+        MnHabitacionesOcupadas = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -162,8 +167,13 @@ public class FrmInicio extends javax.swing.JFrame {
 
         MenuReportes.setText("Reportes");
 
-        jMenuItem2.setText("Habitaciones Disponibles");
-        MenuReportes.add(jMenuItem2);
+        MnHabitacionesDisponibles.setText("Habitaciones Disponibles");
+        MnHabitacionesDisponibles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnHabitacionesDisponiblesActionPerformed(evt);
+            }
+        });
+        MenuReportes.add(MnHabitacionesDisponibles);
 
         jMenuItem8.setText("Reservas Activas");
         MenuReportes.add(jMenuItem8);
@@ -189,7 +199,7 @@ public class FrmInicio extends javax.swing.JFrame {
 
         jMenuBar1.add(MenuReservas);
 
-        MenuOpciones.setText("Opciones");
+        MenuRegistro.setText("Hacer Registro");
 
         MnCheckIn.setText("Hacer Check-in");
         MnCheckIn.addActionListener(new java.awt.event.ActionListener() {
@@ -197,15 +207,24 @@ public class FrmInicio extends javax.swing.JFrame {
                 MnCheckInActionPerformed(evt);
             }
         });
-        MenuOpciones.add(MnCheckIn);
+        MenuRegistro.add(MnCheckIn);
 
         MnCheckOut.setText("Hacer Check-out");
-        MenuOpciones.add(MnCheckOut);
+        MenuRegistro.add(MnCheckOut);
 
-        jMenuItem11.setText("Habitaciones Disponibles");
-        MenuOpciones.add(jMenuItem11);
+        jMenuBar1.add(MenuRegistro);
 
-        jMenuBar1.add(MenuOpciones);
+        MenuOpcionesHabitaciones.setText("Opciones de Habitaciones");
+
+        MnHabitacionesOcupadas.setText("Habitaciones Disponibles");
+        MnHabitacionesOcupadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnHabitacionesOcupadasActionPerformed(evt);
+            }
+        });
+        MenuOpcionesHabitaciones.add(MnHabitacionesOcupadas);
+
+        jMenuBar1.add(MenuOpcionesHabitaciones);
 
         setJMenuBar(jMenuBar1);
 
@@ -264,6 +283,9 @@ public class FrmInicio extends javax.swing.JFrame {
 
     private void MnCheckInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCheckInActionPerformed
         // TODO add your handling code here:
+        JIFrmCheckIn checkin = new JIFrmCheckIn();
+        DesktopAdmin.add(checkin);
+        checkin.show();
     }//GEN-LAST:event_MnCheckInActionPerformed
 
     private void MnAgregarHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnAgregarHabitacionActionPerformed
@@ -272,6 +294,20 @@ public class FrmInicio extends javax.swing.JFrame {
         DesktopAdmin.add(agregarHabitacion);
         agregarHabitacion.show();
     }//GEN-LAST:event_MnAgregarHabitacionActionPerformed
+
+    private void MnHabitacionesDisponiblesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnHabitacionesDisponiblesActionPerformed
+        // TODO add your handling code here:
+        JIFrmHabitacionesDisponibles HabitacionesDisponibles = new JIFrmHabitacionesDisponibles();
+        DesktopAdmin.add(HabitacionesDisponibles);
+        HabitacionesDisponibles.show();
+    }//GEN-LAST:event_MnHabitacionesDisponiblesActionPerformed
+
+    private void MnHabitacionesOcupadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnHabitacionesOcupadasActionPerformed
+        // TODO add your handling code here:
+        JIFrmHabitacionesDisponibles HabitacionesOcupadas = new JIFrmHabitacionesDisponibles();
+        DesktopAdmin.add(HabitacionesOcupadas);
+        HabitacionesOcupadas.show();
+    }//GEN-LAST:event_MnHabitacionesOcupadasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -312,8 +348,9 @@ public class FrmInicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane DesktopAdmin;
     private javax.swing.JMenu MenuAdmin;
-    private javax.swing.JMenu MenuOpciones;
+    private javax.swing.JMenu MenuOpcionesHabitaciones;
     private javax.swing.JMenu MenuPerfil;
+    private javax.swing.JMenu MenuRegistro;
     private javax.swing.JMenu MenuReportes;
     private javax.swing.JMenu MenuReservas;
     private javax.swing.JMenuItem MnAgregarHabitacion;
@@ -322,13 +359,13 @@ public class FrmInicio extends javax.swing.JFrame {
     private javax.swing.JMenuItem MnCheckOut;
     private javax.swing.JMenuItem MnContratar;
     private javax.swing.JMenuItem MnCrearTipoHabitacion;
+    private javax.swing.JMenuItem MnHabitacionesDisponibles;
+    private javax.swing.JMenuItem MnHabitacionesOcupadas;
     private javax.swing.JMenuItem MnMostrarHabitacion;
     private javax.swing.JMenuItem MnPerfil;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;

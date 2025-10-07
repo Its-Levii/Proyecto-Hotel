@@ -112,7 +112,7 @@ public class Usuario {
             ResultSet resultado = Recibir.executeQuery();
 
             if (resultado.next()){
-                return resultado.getString("id");   
+                return resultado.getString("id_usuario");   
             }
             else {
                 return null;
@@ -126,7 +126,7 @@ public class Usuario {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM usuario WHERE id = ?";
+            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             
@@ -149,7 +149,7 @@ public class Usuario {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM usuario WHERE id = ?";
+            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             
@@ -172,7 +172,7 @@ public class Usuario {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM usuario WHERE id = ?";
+            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             
@@ -195,7 +195,7 @@ public class Usuario {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM usuario WHERE id = ?";
+            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             
@@ -218,7 +218,7 @@ public class Usuario {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM usuario WHERE id = ?";
+            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             
@@ -241,7 +241,7 @@ public class Usuario {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM usuario WHERE id = ?";
+            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             
@@ -264,7 +264,7 @@ public class Usuario {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM usuario WHERE id = ?";
+            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             
@@ -287,7 +287,7 @@ public class Usuario {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM usuario WHERE id = ?";
+            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             
@@ -310,7 +310,7 @@ public class Usuario {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM usuario WHERE id = ?";
+            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             

@@ -3,49 +3,98 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package proyectohotel;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Levi
  */
 public class Checkin {
     
-    private Habitacion habitacion;
-    private ArrayList<Huesped> huespedes;
-    private Calendar fechaEntrada;
-    private Calendar fechaSalida;
+    String urlBase = "jdbc:mysql://localhost:3306/hotel";
+    String usuarioBase = "root";
+    String contraseñaBase = "cbn2016";
+    
+    private int documento;
+    private int id_habitacion;
+    private String fechaEntrada;
+    private String fechaSalida;
 
     private static SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-
-    public Checkin(Habitacion habitacion, ArrayList<Huesped> huespedes, Calendar fechaSalida) {
-        this.habitacion = habitacion;
-        this.huespedes = huespedes;
-        this.fechaEntrada = Calendar.getInstance();
-        this.fechaSalida = fechaSalida;
+    public Checkin(){}
+    public Checkin(int documento, int id_habitacion) {
+        this.documento = documento;
+        this.id_habitacion = id_habitacion;
+        this.fechaEntrada = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+        this.fechaSalida = null;
     }
     
-    public Habitacion getHabitacion() { return habitacion; }
-    public ArrayList<Huesped> getHuespedes() { return huespedes; }
-    public Calendar getFechaEntrada() { return fechaEntrada; }
-    public Calendar getFechaSalida() { return fechaSalida; }
+
+    public boolean BuscarHuesped(){
+        try{
+            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
+            
+            String sql = "SELECT * FROM checkin_checkout WHERE documento = ? AND fecha_Salida is null";
+            
+            PreparedStatement Recibir = conexion.prepareStatement(sql);
+            
+            Recibir.setString(1, Integer.toString(documento));
+
+            ResultSet resultado = Recibir.executeQuery();
+            if (resultado.next()){
+                System.out.println(resultado.getString("documento"));
+                System.out.println(resultado.getString("fecha_Salida"));
+                return true;   
+            }
+            else {
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Error al buscar huesped: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    public boolean hacerCheck_in() {
+        try {
+            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
 
 
-    public void registrar() {
-        habitacion.setEstado("Ocupada");
-        System.out.println("Check-In realizado");
-        mostrarCheckIn();
+            String sql = "INSERT INTO checkin_checkout (documento, id_habitacion, fecha_Entrada, fecha_Salida) VALUES (?, ?, ?, ?)";
+
+
+            PreparedStatement Enviar = conexion.prepareStatement(sql);
+
+
+            Enviar.setString(1, Integer.toString(documento));
+            Enviar.setString(2, Integer.toString(id_habitacion));
+            Enviar.setString(3, fechaEntrada);
+            Enviar.setString(4, fechaSalida);
+
+
+            int filasAfectadas = Enviar.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("✅ huesped ingresado correctamente en la base de datos");
+            }
+            conexion.close();
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("❌ Error al ingresar en la base de datos: " + e.getMessage());
+            return false;
+        }
     }
 
-    public void mostrarCheckIn() {
-        System.out.println("Check-In Habitación: " + habitacion.getTipo());
-        System.out.println("Huéspedes: ");
-        for (int i = 0; i < huespedes.size(); i++) {
-            huespedes.get(i).mostrarHuesped();
-        }
-        System.out.println("Entrada: " + date.format(fechaEntrada.getTime()));
-        System.out.println("Salida: " + date.format(fechaSalida.getTime()));
+    public void hacerCheck_Out() {
+        
     }
 }
 

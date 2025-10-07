@@ -432,7 +432,7 @@ public class Sistema {
                         break;
                     }
                 }
-
+                
                 if (habitacion == null) {
                     System.out.println("Habitación no disponible.");
                     return;

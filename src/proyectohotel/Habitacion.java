@@ -7,7 +7,9 @@ package proyectohotel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,12 +22,12 @@ public class Habitacion {
     String usuarioBase = "root";
     String contraseñaBase = "cbn2016";    
     
-    private int id;
-    private String tipo;
+    private int tipo;
     private String estado;
-
-    public Habitacion(int id, String tipo, double tarifa, String descripcion) {
-        this.id = id;
+    
+    public Habitacion(){}
+    
+    public Habitacion(int tipo) {
         this.tipo = tipo;
         this.estado = "disponible";
     }
@@ -35,13 +37,13 @@ public class Habitacion {
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
 
 
-            String sql = "INSERT INTO habitacion (tipo, estado) VALUES (?, ?)";
+            String sql = "INSERT INTO habitacion (id_tipoHabitacion, estado) VALUES (?, ?)";
 
 
             PreparedStatement Enviar = conexion.prepareStatement(sql);
 
 
-            Enviar.setString(1, tipo);
+            Enviar.setString(1, Integer.toString(tipo));
             Enviar.setString(2, estado);
 
 
@@ -49,27 +51,74 @@ public class Habitacion {
 
             if (filasAfectadas > 0) {
                 System.out.println("✅ Registro insertado correctamente en la base de datos");
-                JOptionPane.showMessageDialog(null, "✅ Habitacion insertada correctamente.");
             }
             conexion.close();
             return true;
 
         } catch (SQLException e) {
             System.out.println("❌ Error al insertar en la base de datos: " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "❌ Error al Agregar habitacion");
             return false;
         }
     }
-    public void mostrarHabitacion() {
-        System.out.println("=================================");
-        System.out.println(" Habitación #" + id);
-        System.out.println(" Tipo        : " + tipo);
-        System.out.println(" Descripción : " + descripcion);
-        System.out.println(" Tarifa      : $" + tarifa);
-        System.out.println(" Estado      : " + estado);
-        System.out.println("=================================");
-    }
+    public ArrayList<String[]> mostrarHabitaciones(){
+        ArrayList<String[]> lista = new ArrayList<>();
+        try{
+            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
+            
+            String sql = "select id_habitacion, nombre, descripcion, tarifa, estado from habitacion left join tipohabitacion on tipohabitacion.id_tipoHabitacion = habitacion.id_tipoHabitacion;";
+            
+            PreparedStatement Recibir = conexion.prepareStatement(sql);
+            ResultSet resultado = Recibir.executeQuery();
+            
+            
+            while (resultado.next()) {
+            String[] fila = new String[5];
+            fila[0] = resultado.getString("id_habitacion");
+            fila[1] = resultado.getString("nombre");
+            fila[2] = resultado.getString("descripcion");
+            fila[3] = resultado.getString("tarifa");
+            fila[4] = resultado.getString("estado");
 
+            lista.add(fila);
+            }
+
+            return lista;
+        } catch (Exception e) {
+            System.out.println("Error al mostrar habitaciones: " + e.getMessage());
+            return null;
+        }
+    }
+    
+        public boolean ModificarEstadoHabitacion(String estado, int habitacionSeleccionada) {
+        try {
+            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
+
+
+            String sql = "UPDATE habitacion SET estado = ? WHERE id_habitacion = ?";
+
+
+            PreparedStatement Enviar = conexion.prepareStatement(sql);
+
+
+            Enviar.setString(1, estado);
+            Enviar.setString(2, Integer.toString(habitacionSeleccionada));
+
+
+            int filasAfectadas = Enviar.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("✅ habitacion Modificada correctamente en la base de datos");
+            }
+            conexion.close();
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("❌ Error al modificar en la base de datos: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    
     
 
     public int getId() { return id; }

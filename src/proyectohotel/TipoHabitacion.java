@@ -65,7 +65,7 @@ public class TipoHabitacion {
         }
     }
     
-    public ArrayList<String[]> mostrarHabitaciones(){
+    public ArrayList<String[]> mostrarTipoHabitaciones(){
         ArrayList<String[]> lista = new ArrayList<>();
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
@@ -78,7 +78,7 @@ public class TipoHabitacion {
             
             while (resultado.next()) {
             String[] fila = new String[4];
-            fila[0] = resultado.getString("id");
+            fila[0] = resultado.getString("id_tipoHabitacion");
             fila[1] = resultado.getString("nombre");
             fila[2] = resultado.getString("descripcion");
             fila[3] = resultado.getString("tarifa");

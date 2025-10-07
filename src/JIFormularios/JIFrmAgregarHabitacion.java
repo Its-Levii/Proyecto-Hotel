@@ -5,6 +5,7 @@
 package JIFormularios;
 
 import javax.swing.JOptionPane;
+import proyectohotel.Habitacion;
 import proyectohotel.TipoHabitacion;
 
 /**
@@ -33,28 +34,36 @@ public class JIFrmAgregarHabitacion extends javax.swing.JInternalFrame {
     public void llenarItems(){
         txtCantidadHabitaciones.setText("");
         cbTipoHabitaciones.removeAllItems();
-        cbTipoHabitaciones.addItem(title);
+        cbTipoHabitaciones.addItem("Seleccione...");
         TipoHabitacion tipoHabitacion = new TipoHabitacion();
-        for (String[] fila : tipoHabitacion.mostrarHabitaciones()) {
+        for (String[] fila : tipoHabitacion.mostrarTipoHabitaciones()) {
             cbTipoHabitaciones.addItem(fila[1]);
         }
     }
     public void AgregarTipo(){
         String Tipo =(String) cbTipoHabitaciones.getSelectedItem();
         String obtener_cantidad = txtCantidadHabitaciones.getText();
-        boolean completo = false;
+        boolean completo = false, llenas = false;
+        int cantidad = 0;
         try{
             if (cbTipoHabitaciones.getSelectedIndex() == 0 || txtCantidadHabitaciones.getText().trim().isEmpty()){
                 JOptionPane.showMessageDialog(null, "Faltan campos por completar");
             }else{
                 try {
-                    int cantidad = Integer.parseInt(obtener_cantidad);
+                    cantidad = Integer.parseInt(obtener_cantidad);
                     completo = true;
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "❌ la cantidad solo debe contener numeros");
                 }
                 if (completo){
-                    
+                    Habitacion habitacion = new Habitacion(cbTipoHabitaciones.getSelectedIndex());
+                    for (int i = 0; i < cantidad; i++) {
+                        llenas = habitacion.AgregarHabitaciones();
+                    }
+                    if (llenas){
+                        JOptionPane.showMessageDialog(null, "Habitaciones añadidas correctamente");
+                        llenarItems();
+                    }
                 }
  
             }
