@@ -110,6 +110,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Hacer Reserva"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem3ActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
               <Properties>
@@ -140,6 +143,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Hacer Check-out"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnCheckOutActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

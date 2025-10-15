@@ -6,11 +6,13 @@ package Formularios;
 
 import JIFormularios.JIFrmAgregarHabitacion;
 import JIFormularios.JIFrmCheckIn;
+import JIFormularios.JIFrmCheckOut;
 import JIFormularios.JIFrmCrearTipoHabitacion;
 import JIFormularios.JIFrmContratar;
 import JIFormularios.JIFrmHabitacionesDisponibles;
 import JIFormularios.JIFrmMostrarTipoHabitaciones;
 import JIFormularios.JIFrmPerfil;
+import JIFormularios.JIFrmReservas;
 import proyectohotel.Usuario;
 
 /**
@@ -32,13 +34,13 @@ public class FrmInicio extends javax.swing.JFrame {
     }
     public void llenarItems(){
         Usuario usuario = new Usuario();
-        System.out.println(usuario.getRol(id));
-        if (usuario.getRol(id).equals("admin")){
+        System.out.println(usuario.datosUsuario(id)[9]);
+        if (usuario.datosUsuario(id)[9].equals("admin")){
             MenuReservas.setVisible(false);
             MenuRegistro.setVisible(false);
             MenuOpcionesHabitaciones.setVisible(false);
         }
-        else if (usuario.getRol(id).equals("empleado")){
+        else if (usuario.datosUsuario(id)[9].equals("empleado")){
             MenuAdmin.setVisible(false);
             MenuReportes.setVisible(false);
             MenuReservas.setVisible(false);
@@ -189,6 +191,11 @@ public class FrmInicio extends javax.swing.JFrame {
         MenuReservas.setText("Reservas");
 
         jMenuItem3.setText("Hacer Reserva");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         MenuReservas.add(jMenuItem3);
 
         jMenuItem4.setText("Ver Reservas Activas");
@@ -210,6 +217,11 @@ public class FrmInicio extends javax.swing.JFrame {
         MenuRegistro.add(MnCheckIn);
 
         MnCheckOut.setText("Hacer Check-out");
+        MnCheckOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnCheckOutActionPerformed(evt);
+            }
+        });
         MenuRegistro.add(MnCheckOut);
 
         jMenuBar1.add(MenuRegistro);
@@ -308,6 +320,20 @@ public class FrmInicio extends javax.swing.JFrame {
         DesktopAdmin.add(HabitacionesOcupadas);
         HabitacionesOcupadas.show();
     }//GEN-LAST:event_MnHabitacionesOcupadasActionPerformed
+
+    private void MnCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCheckOutActionPerformed
+        // TODO add your handling code here:
+        JIFrmCheckOut checkOut = new JIFrmCheckOut();
+        DesktopAdmin.add(checkOut);
+        checkOut.show();
+    }//GEN-LAST:event_MnCheckOutActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        JIFrmReservas reserva = new JIFrmReservas();
+        DesktopAdmin.add(reserva);
+        reserva.show();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments

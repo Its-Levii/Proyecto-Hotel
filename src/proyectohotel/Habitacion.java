@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -117,15 +116,5 @@ public class Habitacion {
             return false;
         }
     }
-    
-    
-    
-
-    public int getId() { return id; }
-    public String getTipo() { return tipo; }
-    public String getDescripcion() { return descripcion; }
-    public double getTarifa() { return tarifa; }
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
 }
 

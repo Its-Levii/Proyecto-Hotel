@@ -46,7 +46,8 @@ public class FrmLogin extends javax.swing.JFrame {
                 }else{
                     String UsuarioVerificado = usuario.IniciarSesion(correo, contraseña);
                     if (UsuarioVerificado != null){
-                        String rol = usuario.getRol(Integer.parseInt(UsuarioVerificado));
+                        System.out.println(UsuarioVerificado);
+                        String rol = usuario.datosUsuario(Integer.parseInt(UsuarioVerificado))[9];
                         System.out.println(rol);
                         System.out.println("Inicio de sesion exitoso");
                         new FrmInicio(Integer.parseInt(UsuarioVerificado)).setVisible(true);

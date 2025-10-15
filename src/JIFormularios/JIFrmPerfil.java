@@ -43,15 +43,15 @@ public class JIFrmPerfil extends javax.swing.JInternalFrame {
     }    
 public void llenarInfoUsuario(int id){
         Usuario usuario = new Usuario();
-        this.nombre = usuario.getNombre(id);
-        this.apellido = usuario.getApellido(id);
-        this.genero = usuario.getGenero(id);
-        this.correo = usuario.getCorreo(id);
-        this.contraseña = usuario.getContaseña(id);
-        this.fechaDeNacimiento = usuario.getFechaDeNacimiento(id);
-        this.departamento = usuario.getDepartamento(id);
-        this.ciudad = usuario.getCiudad(id);
-        this.rol = usuario.getRol(id);
+        this.nombre = usuario.datosUsuario(id)[1];
+        this.apellido = usuario.datosUsuario(id)[2];
+        this.genero = usuario.datosUsuario(id)[3];
+        this.correo = usuario.datosUsuario(id)[4];
+        this.contraseña = usuario.datosUsuario(id)[5];
+        this.fechaDeNacimiento = usuario.datosUsuario(id)[6];
+        this.departamento = usuario.datosUsuario(id)[7];
+        this.ciudad = usuario.datosUsuario(id)[8];
+        this.rol = usuario.datosUsuario(id)[9];
         lbNombre.setText(nombre);
         lbApellido.setText(apellido);
         lbGenero.setText(genero);

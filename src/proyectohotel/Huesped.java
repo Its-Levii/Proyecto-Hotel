@@ -7,8 +7,8 @@ package proyectohotel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,14 +23,15 @@ public class Huesped {
     private String nombre;
     private String apellido;
     private int documento;
-
+    
+    public Huesped(){}
     public Huesped(String nombre, String apellido, int documento) {
         this.nombre = nombre;
         this.apellido= apellido;
         this.documento = documento;
     }
 
-    public boolean AgregarHuesped(){
+    public String AgregarHuesped(){
         try {
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
 
@@ -52,35 +53,46 @@ public class Huesped {
                 System.out.println("✅ Registro insertado correctamente en la base de datos");
             }
             conexion.close();
-            return true;
+            return Integer.toString(documento);
 
         } catch (SQLException e) {
             if (e.getMessage().contains("Duplicate entry") && e.getMessage().contains("huesped.documento")) {
-                System.out.println("❌ Esta persona ya se encuentra dentro del hotel");
+                System.out.println("❌ Esta persona ya se encuentra registrada en la base de datos");
+                return Integer.toString(documento);
             } else {
                 System.out.println("❌ Error al insertar en la base de datos: " + e.getMessage());
             }
-            return false;
+            return null;
         }
     }
-
-    public String getNombre() {
-        return nombre;
-    }
     
-    public String getApellido() {
-        return apellido;
-    }
-    
-    public String getDocumento() {
-        return documento;
-    }
-
-    public void mostrarHuesped() {
-        System.out.println("-------------------------------");
-        System.out.println("Nombre       : " + nombre);
-        System.out.println("Documento    : " + documento);
-        System.out.println("-------------------------------");
+    public String[] datosHuesped(int documento){
+        try{
+            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
+            
+            String sql = "SELECT * FROM huesped WHERE documento = ?";
+            
+            PreparedStatement Recibir = conexion.prepareStatement(sql);
+            
+            Recibir.setString(1, Integer.toString(documento));
+            
+            
+            ResultSet resultado = Recibir.executeQuery();
+            if (resultado.next()){
+                String[] Datos = new String[3];
+                Datos[0] = resultado.getString("nombre");
+                Datos[1] = resultado.getString("apellido");
+                Datos[2] = resultado.getString("documento");
+                System.out.println(resultado.getString("documento"));
+                return Datos;   
+            }
+            else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Error al buscar huesped: " + e.getMessage());
+            return null;
+        }
     }
 }
 

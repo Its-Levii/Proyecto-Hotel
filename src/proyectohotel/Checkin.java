@@ -37,7 +37,7 @@ public class Checkin {
     }
     
 
-    public boolean BuscarHuesped(){
+    public boolean BuscarHuesped(int documento){
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
@@ -93,8 +93,64 @@ public class Checkin {
         }
     }
 
-    public void hacerCheck_Out() {
-        
+    public boolean hacerCheck_Out(int documento) {
+        fechaSalida = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+        try {
+            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
+
+
+            String sql = "UPDATE checkin_checkout SET fecha_Salida = ? WHERE documento = ? AND fecha_Salida is null";
+
+
+            PreparedStatement Enviar = conexion.prepareStatement(sql);
+
+
+            Enviar.setString(1, fechaSalida);
+            Enviar.setString(2, Integer.toString(documento));
+
+
+            int filasAfectadas = Enviar.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("✅ fecha de salida modificada correctamente en la base de datos");
+            }
+            conexion.close();
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("❌ Error al modificar en la base de datos: " + e.getMessage());
+            return false;
+        }
+    }
+    public String[] DatosCheck(int documento){
+        try{
+            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
+            
+            String sql = "SELECT * FROM checkin_checkout WHERE documento = ?";
+            
+            PreparedStatement Recibir = conexion.prepareStatement(sql);
+            
+            Recibir.setString(1, Integer.toString(documento));
+
+            ResultSet resultado = Recibir.executeQuery();
+            if (resultado.next()){
+                String[] Datos = new String[5];
+                Datos[0] = resultado.getString("id_checkin");
+                Datos[1] = resultado.getString("documento");
+                Datos[2] = resultado.getString("id_habitacion");
+                Datos[3] = resultado.getString("fecha_Entrada");
+                Datos[4] = resultado.getString("fecha_Salida");
+                System.out.println(resultado.getString("documento"));
+                System.out.println(resultado.getString("fecha_Salida"));
+                return Datos;   
+            }
+            else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Error al buscar CheckIn: " + e.getMessage());
+            return null;
+        }
     }
 }
 

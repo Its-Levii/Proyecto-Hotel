@@ -4,6 +4,12 @@
  */
 package JIFormularios;
 
+import javax.swing.JOptionPane;
+import proyectohotel.Checkin;
+import proyectohotel.Habitacion;
+import proyectohotel.Huesped;
+import proyectohotel.Reserva;
+
 /**
  *
  * @author Usuario
@@ -13,8 +19,91 @@ public class JIFrmCheckOut extends javax.swing.JInternalFrame {
     /**
      * Creates new form JIFrmCheckOut
      */
+    Reserva reserva;
+    Checkin checkout;
+    Huesped huesped;
+    Habitacion habitacion;
+    boolean completo = false;
     public JIFrmCheckOut() {
         initComponents();
+        reserva = new Reserva();
+        checkout = new Checkin();
+        huesped = new Huesped();
+        habitacion = new Habitacion();
+        llenarItems();
+    }
+    public void llenarItems(){
+        completo = false;
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+        try {
+           setMaximum(true);
+        } catch (Exception e) {
+            System.out.println("No se maximizo correctamente, ERROR:" + e);
+        }
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtDocumento.setText("");
+        txtNumeroHabitacion.setText("");
+        txtTipoHabitacion.setText("");
+        
+        lbNombre.setEnabled(false);
+        lbApellido.setEnabled(false);
+        lbNumeroHabitacion.setEnabled(false);
+        lbTipoHabitacion.setEnabled(false);
+        txtNombre.setEnabled(false);
+        txtApellido.setEnabled(false);
+        txtNumeroHabitacion.setEnabled(false);
+        txtTipoHabitacion.setEnabled(false);
+        btnDesalojar.setEnabled(false);
+        completo = true;
+    }
+    public void BuscarHuesped(){
+        String obtener_documento = txtDocumento.getText();
+        int documento = 0;
+        boolean todo_lleno = false;
+        if (txtDocumento.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Faltan campos por completar");
+        }else{
+            try {
+                documento = Integer.parseInt(txtDocumento.getText());
+                todo_lleno = true;
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "El documento solo debe contener numeros");
+            }
+            if (todo_lleno){
+                if (checkout.BuscarHuesped(documento)){
+                    txtNombre.setText(huesped.datosHuesped(documento)[0]);
+                    txtApellido.setText(huesped.datosHuesped(documento)[1]);
+                    txtNumeroHabitacion.setText(checkout.DatosCheck(documento)[2]);
+                    txtTipoHabitacion.setText(habitacion.mostrarHabitaciones().get(Integer.parseInt(checkout.DatosCheck(documento)[2]))[1]);
+                    btnDesalojar.setEnabled(true);
+                    
+                }else{
+                    btnDesalojar.setEnabled(false);
+                    JOptionPane.showMessageDialog(null, "El huesped no se encontro dentro del hotel");
+                }
+            }
+        }
+    }
+    public void DesalojarHuesped(){
+        int documento = Integer.parseInt(txtDocumento.getText());
+        int id_habitacion = Integer.parseInt(txtNumeroHabitacion.getText());
+        String estado = "Disponible";
+        if (checkout.hacerCheck_Out(documento)){
+            habitacion.ModificarEstadoHabitacion(estado, id_habitacion);
+            if (reserva.ModificarEstadoReserva("Expirada", documento)){
+                System.out.println("reserva modificada correctamente");
+            }else{
+                System.out.println("Mo tenia reservas a modificar");
+            }
+            JOptionPane.showMessageDialog(null, "El huesped fue desalojado correctamente");
+            llenarItems();
+        }else{
+            JOptionPane.showMessageDialog(null, "Error al desalojar huesped");
+        }
     }
 
     /**
@@ -29,39 +118,49 @@ public class JIFrmCheckOut extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         txtDocumento = new javax.swing.JTextField();
         btnDesalojar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        lbNombre = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        lbApellido = new javax.swing.JLabel();
         txtApellido = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
+        lbNumeroHabitacion = new javax.swing.JLabel();
         txtNumeroHabitacion = new javax.swing.JTextField();
         txtTipoHabitacion = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        lbTipoHabitacion = new javax.swing.JLabel();
+        btnBuscarHuesped = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("Documento");
 
         txtDocumento.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtDocumento.setText("jTextField1");
+        txtDocumento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtDocumentoMouseClicked(evt);
+            }
+        });
 
         btnDesalojar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnDesalojar.setText("Desalojar huesped");
+        btnDesalojar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDesalojarActionPerformed(evt);
+            }
+        });
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("Nombre");
+        lbNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbNombre.setText("Nombre");
 
         txtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtNombre.setText("jTextField2");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Apellido");
+        lbApellido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbApellido.setText("Apellido");
 
         txtApellido.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtApellido.setText("jTextField3");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("Habitacion");
+        lbNumeroHabitacion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbNumeroHabitacion.setText("Habitacion");
 
         txtNumeroHabitacion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtNumeroHabitacion.setText("jTextField4");
@@ -69,11 +168,16 @@ public class JIFrmCheckOut extends javax.swing.JInternalFrame {
         txtTipoHabitacion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtTipoHabitacion.setText("jTextField5");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setText("Tipo");
+        lbTipoHabitacion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbTipoHabitacion.setText("Tipo");
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton1.setText("Buscar Huesped");
+        btnBuscarHuesped.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnBuscarHuesped.setText("Buscar Huesped");
+        btnBuscarHuesped.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarHuespedActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -84,33 +188,37 @@ public class JIFrmCheckOut extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lbNombre)
+                            .addComponent(txtNombre))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
+                                .addComponent(lbApellido)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(txtApellido)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtNumeroHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNumeroHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(txtTipoHabitacion))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(168, 168, 168)
-                                .addComponent(btnDesalojar))
+                                .addComponent(btnDesalojar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(103, 103, 103)
-                                .addComponent(jLabel5)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lbNumeroHabitacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(7, 7, 7)))
+                                .addGap(133, 133, 133)
+                                .addComponent(lbTipoHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                                .addGap(49, 49, 49)))
+                        .addGap(207, 207, 207))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtDocumento)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnBuscarHuesped)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -120,20 +228,20 @@ public class JIFrmCheckOut extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(btnBuscarHuesped, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                     .addComponent(txtDocumento))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(lbNombre)
+                    .addComponent(lbApellido))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                    .addComponent(lbNumeroHabitacion)
+                    .addComponent(lbTipoHabitacion))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtTipoHabitacion)
@@ -146,15 +254,30 @@ public class JIFrmCheckOut extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnBuscarHuespedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarHuespedActionPerformed
+        // TODO add your handling code here:
+        BuscarHuesped();
+    }//GEN-LAST:event_btnBuscarHuespedActionPerformed
+
+    private void txtDocumentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDocumentoMouseClicked
+        // TODO add your handling code here:
+        btnDesalojar.setEnabled(false);
+    }//GEN-LAST:event_txtDocumentoMouseClicked
+
+    private void btnDesalojarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesalojarActionPerformed
+        // TODO add your handling code here:
+        DesalojarHuesped();
+    }//GEN-LAST:event_btnDesalojarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscarHuesped;
     private javax.swing.JButton btnDesalojar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel lbApellido;
+    private javax.swing.JLabel lbNombre;
+    private javax.swing.JLabel lbNumeroHabitacion;
+    private javax.swing.JLabel lbTipoHabitacion;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtDocumento;
     private javax.swing.JTextField txtNombre;

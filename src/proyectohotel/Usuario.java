@@ -121,31 +121,8 @@ public class Usuario {
             System.out.println("Error al validar login: " + e.getMessage());
             return null;
         }
-        }
-    public String getNombre(int id){
-        try{
-            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
-            
-            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
-            
-            PreparedStatement Recibir = conexion.prepareStatement(sql);
-            
-            Recibir.setString(1, Integer.toString(id));
-
-            ResultSet resultado = Recibir.executeQuery();
-
-            if (resultado.next()){
-                return resultado.getString("nombre");   
-            }
-            else {
-                return null;
-            }
-        } catch (Exception e) {
-            System.out.println("Error recibir nombre: " + e.getMessage());
-            return null;
-        }
     }
-    public String getApellido(int id){
+     public String[] datosUsuario(int id){
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
@@ -154,178 +131,28 @@ public class Usuario {
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             
             Recibir.setString(1, Integer.toString(id));
-
+            
+            
             ResultSet resultado = Recibir.executeQuery();
-
             if (resultado.next()){
-                return resultado.getString("apellido");   
+                String[] Datos = new String[10];
+                Datos[0] = resultado.getString("id_usuario");
+                Datos[1] = resultado.getString("nombre");
+                Datos[2] = resultado.getString("apellido");
+                Datos[3] = resultado.getString("genero");
+                Datos[4] = resultado.getString("correo");
+                Datos[5] = resultado.getString("contrasena");
+                Datos[6] = resultado.getString("fecha_nacimiento");
+                Datos[7] = resultado.getString("departamento");
+                Datos[8] = resultado.getString("ciudad");
+                Datos[9] = resultado.getString("rol");
+                return Datos;   
             }
             else {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("Error al recibir apellido: " + e.getMessage());
-            return null;
-        }
-    }
-    public String getGenero(int id){
-        try{
-            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
-            
-            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
-            
-            PreparedStatement Recibir = conexion.prepareStatement(sql);
-            
-            Recibir.setString(1, Integer.toString(id));
-
-            ResultSet resultado = Recibir.executeQuery();
-
-            if (resultado.next()){
-                return resultado.getString("genero");   
-            }
-            else {
-                return null;
-            }
-        } catch (Exception e) {
-            System.out.println("Error al recibir genero: " + e.getMessage());
-            return null;
-        }
-    }
-    public String getCorreo(int id){
-        try{
-            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
-            
-            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
-            
-            PreparedStatement Recibir = conexion.prepareStatement(sql);
-            
-            Recibir.setString(1, Integer.toString(id));
-
-            ResultSet resultado = Recibir.executeQuery();
-
-            if (resultado.next()){
-                return resultado.getString("correo");   
-            }
-            else {
-                return null;
-            }
-        } catch (Exception e) {
-            System.out.println("Error al recibir correo: " + e.getMessage());
-            return null;
-        }
-    }
-    public String getContaseña(int id){
-        try{
-            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
-            
-            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
-            
-            PreparedStatement Recibir = conexion.prepareStatement(sql);
-            
-            Recibir.setString(1, Integer.toString(id));
-
-            ResultSet resultado = Recibir.executeQuery();
-
-            if (resultado.next()){
-                return resultado.getString("contrasena");   
-            }
-            else {
-                return null;
-            }
-        } catch (Exception e) {
-            System.out.println("Error al recibir contraseña: " + e.getMessage());
-            return null;
-        }
-    }
-    public String getFechaDeNacimiento(int id){
-        try{
-            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
-            
-            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
-            
-            PreparedStatement Recibir = conexion.prepareStatement(sql);
-            
-            Recibir.setString(1, Integer.toString(id));
-
-            ResultSet resultado = Recibir.executeQuery();
-
-            if (resultado.next()){
-                return resultado.getString("fecha_nacimiento");   
-            }
-            else {
-                return null;
-            }
-        } catch (Exception e) {
-            System.out.println("Error al recibir fecha de nacimiento: " + e.getMessage());
-            return null;
-        }
-    }
-    public String getDepartamento(int id){
-        try{
-            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
-            
-            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
-            
-            PreparedStatement Recibir = conexion.prepareStatement(sql);
-            
-            Recibir.setString(1, Integer.toString(id));
-
-            ResultSet resultado = Recibir.executeQuery();
-
-            if (resultado.next()){
-                return resultado.getString("departamento");   
-            }
-            else {
-                return null;
-            }
-        } catch (Exception e) {
-            System.out.println("Error al recibir departamento: " + e.getMessage());
-            return null;
-        }
-    }
-    public String getCiudad(int id){
-        try{
-            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
-            
-            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
-            
-            PreparedStatement Recibir = conexion.prepareStatement(sql);
-            
-            Recibir.setString(1, Integer.toString(id));
-
-            ResultSet resultado = Recibir.executeQuery();
-
-            if (resultado.next()){
-                return resultado.getString("ciudad");   
-            }
-            else {
-                return null;
-            }
-        } catch (Exception e) {
-            System.out.println("Error al recibir ciudad: " + e.getMessage());
-            return null;
-        }
-    }
-    public String getRol(int id){
-        try{
-            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
-            
-            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
-            
-            PreparedStatement Recibir = conexion.prepareStatement(sql);
-            
-            Recibir.setString(1, Integer.toString(id));
-
-            ResultSet resultado = Recibir.executeQuery();
-
-            if (resultado.next()){
-                return resultado.getString("rol");   
-            }
-            else {
-                return null;
-            }
-        } catch (Exception e) {
-            System.out.println("Error al recibir rol: " + e.getMessage());
+            System.out.println("Error al buscar Usuario: " + e.getMessage());
             return null;
         }
     }
