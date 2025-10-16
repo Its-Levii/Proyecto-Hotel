@@ -78,7 +78,7 @@ public class JIFrmCheckOut extends javax.swing.JInternalFrame {
                     txtNombre.setText(huesped.datosHuesped(documento)[0]);
                     txtApellido.setText(huesped.datosHuesped(documento)[1]);
                     txtNumeroHabitacion.setText(checkout.DatosCheck(documento)[2]);
-                    txtTipoHabitacion.setText(habitacion.mostrarHabitaciones().get(Integer.parseInt(checkout.DatosCheck(documento)[2]))[1]);
+                    txtTipoHabitacion.setText(habitacion.mostrarHabitaciones().get(Integer.parseInt(checkout.DatosCheck(documento)[2])-1)[1]);
                     btnDesalojar.setEnabled(true);
                     
                 }else{

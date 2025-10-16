@@ -151,7 +151,7 @@ public class JIFrmCheckIn extends javax.swing.JInternalFrame {
                            else if (checkin.hacerCheck_in()){
                                habitacion.ModificarEstadoHabitacion("Ocupada", id_habitacion);
                                JOptionPane.showMessageDialog(null, "Ingresado correctamente al hotel");
-                               llenarItems();
+                               llenarSinReserva();
                            }else{
                                JOptionPane.showMessageDialog(null, "Error al ingresar al hotel");
                            }

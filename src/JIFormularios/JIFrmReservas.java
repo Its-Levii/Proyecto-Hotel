@@ -25,10 +25,12 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
      */
     Habitacion habitacion;
     boolean completo = false;
-    public JIFrmReservas() {
+    int id;
+    public JIFrmReservas(int id) {
         initComponents();
         habitacion = new Habitacion();
         llenarItems();
+        this.id = id;
     }
         public void llenarItems(){
         completo = false;
@@ -51,6 +53,8 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
                 cbHabitaciones.addItem(fila[0]+ "   " +fila[1] + "         " + fila[4]);
             }
         }
+        DateEntrada.setDate(null);
+        DateSalida.setDate(null);
         completo = true;
     }
     public void Reservar(){
@@ -81,7 +85,7 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
                     fechaEntrada = new SimpleDateFormat("yyyy-MM-dd").format(obtener_fechaEntrada);
                     fechaSalida = new SimpleDateFormat("yyyy-MM-dd").format(obtener_fechaSalida);
                     System.out.println(numeroHabitacion);
-                    Reserva reserva = new Reserva(documento, numeroHabitacion, fechaEntrada, fechaSalida);
+                    Reserva reserva = new Reserva(documento, numeroHabitacion, fechaEntrada, fechaSalida, id);
                     if (reserva.Reservar()){
                         JOptionPane.showMessageDialog(null, "Reserva exitosa");
                         llenarItems();

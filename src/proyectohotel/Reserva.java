@@ -26,16 +26,19 @@ public class Reserva {
     private String fechaEntrada;
     private String fechaSalida;
     private String Estado_Reserva;
-    
+    private int id_usuario;
+    private String fecha_registro;
     private static SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
     
      public Reserva(){}
-    public Reserva(int documento, int id_habitacion, String fechaEntrada, String fechaSalida) {
+    public Reserva(int documento, int id_habitacion, String fechaEntrada, String fechaSalida, int id_usuario) {
         this.documento = documento;
         this.id_habitacion = id_habitacion;
         this.fechaEntrada = fechaEntrada;
         this.fechaSalida = fechaSalida;
         this.Estado_Reserva = "Pendiente";
+        this.id_usuario = id_usuario;
+        this.fecha_registro = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
     }
     public boolean buscarreserva(int documento, String estado){
         try{
@@ -67,7 +70,7 @@ public class Reserva {
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
 
 
-            String sql = "INSERT INTO reserva (documento_huesped, id_habitacion, fecha_entrada, fecha_salida, estado) VALUES (?, ?, ?, ? , ?)";
+            String sql = "INSERT INTO reserva (documento_huesped, id_habitacion, fecha_entrada, fecha_salida, estado, fecha_registro, id_usuario) VALUES (?, ?, ?, ? , ?, ?, ?)";
 
 
             PreparedStatement Enviar = conexion.prepareStatement(sql);
@@ -78,6 +81,8 @@ public class Reserva {
             Enviar.setString(3, fechaEntrada);
             Enviar.setString(4, fechaSalida);
             Enviar.setString(5, Estado_Reserva);
+            Enviar.setString(6, fecha_registro);
+            Enviar.setString(7, Integer.toString(id_usuario));
 
 
             int filasAfectadas = Enviar.executeUpdate();
@@ -106,13 +111,15 @@ public class Reserva {
             
             ResultSet resultado = Recibir.executeQuery();
             if (resultado.next()){
-                String[] Datos = new String[6];
+                String[] Datos = new String[8];
                 Datos[0] = resultado.getString("id_reserva");
                 Datos[1] = resultado.getString("documento_huesped");
                 Datos[2] = resultado.getString("id_habitacion");
                 Datos[3] = resultado.getString("fecha_entrada");
                 Datos[4] = resultado.getString("fecha_salida");
                 Datos[5] = resultado.getString("estado");
+                Datos[6] = resultado.getString("id_usuario");
+                Datos[7] = resultado.getString("fecha_registro");
                 System.out.println(resultado.getString("documento_huesped"));
                 return Datos;   
             }
@@ -150,6 +157,66 @@ public class Reserva {
         } catch (SQLException e) {
             System.out.println("❌ Error al modificar en la base de datos: " + e.getMessage());
             return false;
+        }
+    }
+    public ArrayList<String[]> ReservasDeUsuario(int id){
+        ArrayList<String[]> lista = new ArrayList<>();
+        try{
+            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
+            if(id != 0){
+            String sql = "SELECT id_reserva, documento_huesped, nombre, apellido, id_habitacion, fecha_entrada, fecha_salida, estado, fecha_registro, id_usuario FROM reserva left join huesped on reserva.documento_huesped = huesped.documento WHERE id_usuario = ?";
+            
+            PreparedStatement Recibir = conexion.prepareStatement(sql);
+            
+            Recibir.setString(1, Integer.toString(id));
+            
+            
+            ResultSet resultado = Recibir.executeQuery();
+            while (resultado.next()) {
+                String[] Datos = new String[10];
+                Datos[0] = resultado.getString("id_reserva");
+                Datos[1] = resultado.getString("documento_huesped");
+                Datos[2] = resultado.getString("nombre");
+                Datos[3] = resultado.getString("apellido");
+                Datos[4] = resultado.getString("id_habitacion");
+                Datos[5] = resultado.getString("fecha_entrada");
+                Datos[6] = resultado.getString("fecha_salida");
+                Datos[7] = resultado.getString("estado");
+                Datos[8] = resultado.getString("fecha_registro");
+                Datos[9] = resultado.getString("id_usuario");
+                
+                lista.add(Datos);
+            }
+            return lista;
+            }
+            
+            else{
+            String sql = "SELECT id_reserva, documento_huesped, nombre, apellido, id_habitacion, fecha_entrada, fecha_salida, estado, fecha_registro, id_usuario FROM reserva left join huesped on reserva.documento_huesped = huesped.documento";
+            
+            PreparedStatement Recibir = conexion.prepareStatement(sql);
+
+            ResultSet resultado = Recibir.executeQuery();
+            while (resultado.next()) {
+                String[] Datos = new String[10];
+                Datos[0] = resultado.getString("id_reserva");
+                Datos[1] = resultado.getString("documento_huesped");
+                Datos[2] = resultado.getString("nombre");
+                Datos[3] = resultado.getString("apellido");
+                Datos[4] = resultado.getString("id_habitacion");
+                Datos[5] = resultado.getString("fecha_entrada");
+                Datos[6] = resultado.getString("fecha_salida");
+                Datos[7] = resultado.getString("estado");
+                Datos[8] = resultado.getString("fecha_registro");
+                Datos[9] = resultado.getString("id_usuario");
+                
+                lista.add(Datos);
+            }
+            return lista;
+            }
+            
+        } catch (Exception e) {
+            System.out.println("Error al buscar reserva: " + e.getMessage());
+            return null;
         }
     }
 }

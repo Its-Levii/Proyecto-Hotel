@@ -64,7 +64,7 @@ public class Habitacion {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "select id_habitacion, nombre, descripcion, tarifa, estado from habitacion left join tipohabitacion on tipohabitacion.id_tipoHabitacion = habitacion.id_tipoHabitacion;";
+            String sql = "select id_habitacion, nombre, descripcion, tarifa, estado from habitacion left join tipohabitacion on tipohabitacion.id_tipoHabitacion = habitacion.id_tipoHabitacion";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             ResultSet resultado = Recibir.executeQuery();

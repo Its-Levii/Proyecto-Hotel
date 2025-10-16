@@ -10,9 +10,11 @@ import JIFormularios.JIFrmCheckOut;
 import JIFormularios.JIFrmCrearTipoHabitacion;
 import JIFormularios.JIFrmContratar;
 import JIFormularios.JIFrmHabitacionesDisponibles;
+import JIFormularios.JIFrmHistorialReservasCliente;
 import JIFormularios.JIFrmMostrarTipoHabitaciones;
 import JIFormularios.JIFrmPerfil;
 import JIFormularios.JIFrmReservas;
+import JIFormularios.JIFrmReservasActivasCliente;
 import proyectohotel.Usuario;
 
 /**
@@ -82,9 +84,8 @@ public class FrmInicio extends javax.swing.JFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         MenuReservas = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        MnHacerReserva = new javax.swing.JMenuItem();
+        MnReservasCliente = new javax.swing.JMenuItem();
         MenuRegistro = new javax.swing.JMenu();
         MnCheckIn = new javax.swing.JMenuItem();
         MnCheckOut = new javax.swing.JMenuItem();
@@ -177,7 +178,12 @@ public class FrmInicio extends javax.swing.JFrame {
         });
         MenuReportes.add(MnHabitacionesDisponibles);
 
-        jMenuItem8.setText("Reservas Activas");
+        jMenuItem8.setText("Reportes Reservas");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
         MenuReportes.add(jMenuItem8);
 
         jMenuItem9.setText("Estadías Activas");
@@ -190,19 +196,21 @@ public class FrmInicio extends javax.swing.JFrame {
 
         MenuReservas.setText("Reservas");
 
-        jMenuItem3.setText("Hacer Reserva");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        MnHacerReserva.setText("Hacer Reserva");
+        MnHacerReserva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                MnHacerReservaActionPerformed(evt);
             }
         });
-        MenuReservas.add(jMenuItem3);
+        MenuReservas.add(MnHacerReserva);
 
-        jMenuItem4.setText("Ver Reservas Activas");
-        MenuReservas.add(jMenuItem4);
-
-        jMenuItem5.setText("Ver Historial De Reservas");
-        MenuReservas.add(jMenuItem5);
+        MnReservasCliente.setText("Ver Reservas Activas");
+        MnReservasCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnReservasClienteActionPerformed(evt);
+            }
+        });
+        MenuReservas.add(MnReservasCliente);
 
         jMenuBar1.add(MenuReservas);
 
@@ -328,12 +336,28 @@ public class FrmInicio extends javax.swing.JFrame {
         checkOut.show();
     }//GEN-LAST:event_MnCheckOutActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         // TODO add your handling code here:
-        JIFrmReservas reserva = new JIFrmReservas();
+        JIFrmReservasActivasCliente reserva = new JIFrmReservasActivasCliente(id);
+        System.out.println("Enviado id:" + id);
         DesktopAdmin.add(reserva);
         reserva.show();
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void MnReservasClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnReservasClienteActionPerformed
+        // TODO add your handling code here:
+        JIFrmReservasActivasCliente reserva = new JIFrmReservasActivasCliente(id);
+        System.out.println("Enviado id:" + id);
+        DesktopAdmin.add(reserva);
+        reserva.show();
+    }//GEN-LAST:event_MnReservasClienteActionPerformed
+
+    private void MnHacerReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnHacerReservaActionPerformed
+        // TODO add your handling code here:
+        JIFrmReservas reserva = new JIFrmReservas(id);
+        DesktopAdmin.add(reserva);
+        reserva.show();
+    }//GEN-LAST:event_MnHacerReservaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -387,14 +411,13 @@ public class FrmInicio extends javax.swing.JFrame {
     private javax.swing.JMenuItem MnCrearTipoHabitacion;
     private javax.swing.JMenuItem MnHabitacionesDisponibles;
     private javax.swing.JMenuItem MnHabitacionesOcupadas;
+    private javax.swing.JMenuItem MnHacerReserva;
     private javax.swing.JMenuItem MnMostrarHabitacion;
     private javax.swing.JMenuItem MnPerfil;
+    private javax.swing.JMenuItem MnReservasCliente;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     // End of variables declaration//GEN-END:variables

@@ -6,8 +6,9 @@
             <file>file:/D:/Documentos/David/Proyecto-Hotel/src/Formularios/FrmInicio.java</file>
             <file>file:/D:/Documentos/David/Proyecto-Hotel/src/JIFormularios/JIFrmCheckIn.java</file>
             <file>file:/D:/Documentos/David/Proyecto-Hotel/src/JIFormularios/JIFrmReservas.java</file>
-            <file>file:/D:/Documentos/David/Proyecto-Hotel/src/proyectohotel/Huesped.java</file>
-            <file>file:/D:/Documentos/David/Proyecto-Hotel/src/proyectohotel/Checkin.java</file>
+            <file>file:/D:/Documentos/David/Proyecto-Hotel/src/proyectohotel/Reserva.java</file>
+            <file>file:/D:/Documentos/David/Proyecto-Hotel/src/proyectohotel/Habitacion.java</file>
+            <file>file:/D:/Documentos/David/Proyecto-Hotel/src/JIFormularios/JIFrmCheckOut.java</file>
         </group>
     </open-files>
 </project-private>
