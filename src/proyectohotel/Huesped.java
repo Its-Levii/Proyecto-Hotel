@@ -50,17 +50,17 @@ public class Huesped {
             int filasAfectadas = Enviar.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("✅ Registro insertado correctamente en la base de datos");
+                System.out.println("Registro insertado correctamente en la base de datos");
             }
             conexion.close();
             return Integer.toString(documento);
 
         } catch (SQLException e) {
             if (e.getMessage().contains("Duplicate entry") && e.getMessage().contains("huesped.documento")) {
-                System.out.println("❌ Esta persona ya se encuentra registrada en la base de datos");
+                System.out.println("Esta persona ya se encuentra registrada en la base de datos");
                 return Integer.toString(documento);
             } else {
-                System.out.println("❌ Error al insertar en la base de datos: " + e.getMessage());
+                System.out.println("Error al insertar en la base de datos: " + e.getMessage());
             }
             return null;
         }

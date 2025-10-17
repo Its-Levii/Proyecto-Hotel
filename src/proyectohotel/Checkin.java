@@ -82,13 +82,13 @@ public class Checkin {
             int filasAfectadas = Enviar.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("✅ huesped ingresado correctamente en la base de datos");
+                System.out.println("huesped ingresado correctamente en la base de datos");
             }
             conexion.close();
             return true;
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al ingresar en la base de datos: " + e.getMessage());
+            System.out.println("Error al ingresar en la base de datos: " + e.getMessage());
             return false;
         }
     }
@@ -112,13 +112,13 @@ public class Checkin {
             int filasAfectadas = Enviar.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("✅ fecha de salida modificada correctamente en la base de datos");
+                System.out.println("fecha de salida modificada correctamente en la base de datos");
             }
             conexion.close();
             return true;
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al modificar en la base de datos: " + e.getMessage());
+            System.out.println("Error al modificar en la base de datos: " + e.getMessage());
             return false;
         }
     }
@@ -149,6 +149,45 @@ public class Checkin {
             }
         } catch (Exception e) {
             System.out.println("Error al buscar CheckIn: " + e.getMessage());
+            return null;
+        }
+    }
+    public ArrayList<String[]> EstadiaActiva(String especifico, int documento){
+        ArrayList<String[]> lista = new ArrayList<>();
+        try{
+            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
+            String sql;
+            PreparedStatement Recibir;
+            if(especifico.equals("Documento")){
+                sql = "select huesped.documento, huesped.nombre, huesped.apellido, habitacion.id_habitacion, tipoHabitacion.nombre, tipoHabitacion.tarifa, fecha_Entrada, fecha_Salida from checkin_checkout left join huesped on checkin_checkout.documento = huesped.documento left join habitacion on checkin_checkout.id_habitacion = habitacion.id_habitacion left join tipoHabitacion on habitacion.id_tipoHabitacion = tipoHabitacion.id_tipoHabitacion where checkin_checkout.documento = ?;";
+                Recibir = conexion.prepareStatement(sql);
+                Recibir.setString(1, Integer.toString(documento));
+            }
+            else if (especifico.equals("Todo")){
+                sql = "select huesped.documento, huesped.nombre, huesped.apellido, habitacion.id_habitacion, tipoHabitacion.nombre, tipoHabitacion.tarifa, fecha_Entrada, fecha_Salida from checkin_checkout left join huesped on checkin_checkout.documento = huesped.documento left join habitacion on checkin_checkout.id_habitacion = habitacion.id_habitacion left join tipoHabitacion on habitacion.id_tipoHabitacion = tipoHabitacion.id_tipoHabitacion;";
+                Recibir = conexion.prepareStatement(sql);
+            }else{
+                sql = "select huesped.documento, huesped.nombre, huesped.apellido, habitacion.id_habitacion, tipoHabitacion.nombre, tipoHabitacion.tarifa, fecha_Entrada, fecha_Salida from checkin_checkout left join huesped on checkin_checkout.documento = huesped.documento left join habitacion on checkin_checkout.id_habitacion = habitacion.id_habitacion left join tipoHabitacion on habitacion.id_tipoHabitacion = tipoHabitacion.id_tipoHabitacion where fecha_salida is null;";
+                Recibir = conexion.prepareStatement(sql);
+            }
+
+            ResultSet resultado = Recibir.executeQuery();
+            while (resultado.next()) {
+            String[] fila = new String[7];
+            fila[0] = resultado.getString("huesped.documento");
+            fila[1] = resultado.getString("huesped.nombre");
+            fila[2] = resultado.getString("huesped.apellido");
+            fila[3] = resultado.getString("habitacion.id_habitacion");
+            fila[4] = resultado.getString("tipoHabitacion.nombre");
+            fila[5] = resultado.getString("fecha_Entrada");
+            fila[6] = resultado.getString("fecha_Salida");
+
+            lista.add(fila);
+            }
+
+            return lista;
+        } catch (Exception e) {
+            System.out.println("Error al buscar Estadias: " + e.getMessage());
             return null;
         }
     }

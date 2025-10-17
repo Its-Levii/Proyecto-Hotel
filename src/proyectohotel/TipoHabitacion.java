@@ -52,14 +52,14 @@ public class TipoHabitacion {
             int filasAfectadas = Enviar.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("✅ Registro insertado correctamente en la base de datos");
+                System.out.println("Registro insertado correctamente en la base de datos");
                 JOptionPane.showMessageDialog(null, "✅ Habitacion insertada correctamente.");
             }
             conexion.close();
             return true;
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al insertar en la base de datos: " + e.getMessage());
+            System.out.println("Error al insertar en la base de datos: " + e.getMessage());
             JOptionPane.showMessageDialog(null, "❌ Error al Agregar habitacion");
             return false;
         }

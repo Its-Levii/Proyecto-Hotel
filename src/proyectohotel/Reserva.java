@@ -88,13 +88,13 @@ public class Reserva {
             int filasAfectadas = Enviar.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("✅ Reserva insertada correctamente en la base de datos");
+                System.out.println("Reserva insertada correctamente en la base de datos");
             }
             conexion.close();
             return true;
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al insertar en la base de datos: " + e.getMessage());
+            System.out.println("Error al insertar en la base de datos: " + e.getMessage());
             return false;
         }
     }
@@ -149,13 +149,13 @@ public class Reserva {
             int filasAfectadas = Enviar.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("✅ reserva Modificada correctamente en la base de datos");
+                System.out.println("reserva Modificada correctamente en la base de datos");
             }
             conexion.close();
             return true;
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al modificar en la base de datos: " + e.getMessage());
+            System.out.println("Error al modificar en la base de datos: " + e.getMessage());
             return false;
         }
     }

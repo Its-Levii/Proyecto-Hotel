@@ -45,14 +45,14 @@ public class JIFrmCrearTipoHabitacion extends javax.swing.JInternalFrame {
         String obtener_tarifa = txtTarifa.getText();
         String descripcion = txtDescripcion.getText();
         if (nombre.trim().isEmpty() || obtener_tarifa.trim().isEmpty() || descripcion.trim().isEmpty()){
-            JOptionPane.showMessageDialog(null, "❌ Faltan campos por completar");
+            JOptionPane.showMessageDialog(null, "Faltan campos por completar");
         }
         else{
             try {
                 double tarifa = Double.parseDouble(obtener_tarifa);
                 completo = true;
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "❌ la tarifa solo debe contener numeros");
+                JOptionPane.showMessageDialog(null, "la tarifa solo debe contener numeros");
             }
             if (completo){
                 TipoHabitacion tipoHabitacion = new TipoHabitacion(nombre, descripcion, obtener_tarifa);

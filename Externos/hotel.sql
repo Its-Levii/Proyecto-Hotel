@@ -1,5 +1,6 @@
 create database hotel;
 use hotel;
+
 CREATE TABLE usuario (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
@@ -24,7 +25,7 @@ CREATE TABLE habitacion (
     id_habitacion INT AUTO_INCREMENT PRIMARY KEY,
     id_tipoHabitacion int not null,
     foreign key (id_tipoHabitacion) references tipoHabitacion(id_tipoHabitacion),
-    estado enum('Disponible','Ocupada','En limpieza') not null
+    estado enum('Disponible','Ocupada','Reservada') not null
     );
     
 CREATE TABLE huesped (
@@ -57,14 +58,21 @@ CREATE TABLE reserva (
     FOREIGN KEY (id_habitacion) REFERENCES habitacion(id_habitacion),
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
+
+select * from usuario;
 select * from reserva;
 select * from checkin_checkout;
+select * from habitacion;
+select * from tipoHabitacion;
+select huesped.documento, huesped.nombre, huesped.apellido, habitacion.id_habitacion, tipoHabitacion.nombre, tipoHabitacion.tarifa, fecha_Entrada, fecha_Salida from checkin_checkout 
+left join huesped on checkin_checkout.documento = huesped.documento
+left join habitacion on checkin_checkout.id_habitacion = habitacion.id_habitacion
+left join tipoHabitacion on habitacion.id_tipoHabitacion = tipoHabitacion.id_tipoHabitacion;
+
 select * from checkin_checkout 
 left join huesped on checkin_checkout.documento = huesped.documento
 left join habitacion on checkin_checkout.id_habitacion = habitacion.id_habitacion
-left join tipoHabitacion on habitacion.id_habitacion = tipoHabitacion.id_tipoHabitacion;
-
-SELECT id_reserva, documento_huesped, nombre, apellido, id_habitacion, fecha_entrada, fecha_salida, estado, fecha_registro, id_usuario FROM reserva left join huesped on reserva.documento_huesped = huesped.documento WHERE id_usuario = 4;
+left join tipoHabitacion on habitacion.id_tipoHabitacion = tipoHabitacion.id_tipoHabitacion;
 
 INSERT INTO usuario (nombre, apellido, genero, correo, contrasena, fecha_nacimiento, departamento, ciudad, rol)
 VALUES ('Julian', 'Henry', 'Masculino', 'hiitslevi240211@gmail.com', '123456', '2001-12-24', 'Magdalena', 'Santa Marta', 'admin');

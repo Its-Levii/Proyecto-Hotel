@@ -81,18 +81,18 @@ public class Usuario {
             int filasAfectadas = Enviar.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("✅ Registro insertado correctamente en la base de datos");
-                JOptionPane.showMessageDialog(null, "✅ Registro insertado correctamente.");
+                System.out.println("Registro insertado correctamente en la base de datos");
+                JOptionPane.showMessageDialog(null, "Registro insertado correctamente.");
             }
             conexion.close();
             return true;
 
         } catch (SQLException e) {
             if (e.getMessage().contains("Duplicate entry") && e.getMessage().contains("usuario.correo")) {
-                JOptionPane.showMessageDialog(null, "❌ Este correo ya esta registrado");
+                JOptionPane.showMessageDialog(null, "Este correo ya esta registrado");
             } else {
-                System.out.println("❌ Error al insertar en la base de datos: " + e.getMessage());
-                JOptionPane.showMessageDialog(null, "❌ Error al registrarse");
+                System.out.println("Error al insertar en la base de datos: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Error al registrarse");
             }
             return false;
         }

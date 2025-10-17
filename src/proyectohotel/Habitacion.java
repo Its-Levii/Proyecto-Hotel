@@ -49,13 +49,13 @@ public class Habitacion {
             int filasAfectadas = Enviar.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("✅ Registro insertado correctamente en la base de datos");
+                System.out.println("Registro insertado correctamente en la base de datos");
             }
             conexion.close();
             return true;
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al insertar en la base de datos: " + e.getMessage());
+            System.out.println("Error al insertar en la base de datos: " + e.getMessage());
             return false;
         }
     }
@@ -106,13 +106,13 @@ public class Habitacion {
             int filasAfectadas = Enviar.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("✅ habitacion Modificada correctamente en la base de datos");
+                System.out.println("habitacion Modificada correctamente en la base de datos");
             }
             conexion.close();
             return true;
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al modificar en la base de datos: " + e.getMessage());
+            System.out.println("Error al modificar en la base de datos: " + e.getMessage());
             return false;
         }
     }

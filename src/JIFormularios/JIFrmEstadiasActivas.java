@@ -4,6 +4,9 @@
  */
 package JIFormularios;
 
+import javax.swing.table.DefaultTableModel;
+import proyectohotel.Checkin;
+
 /**
  *
  * @author Usuario
@@ -13,8 +16,30 @@ public class JIFrmEstadiasActivas extends javax.swing.JInternalFrame {
     /**
      * Creates new form JIFrmEstadiasActivas
      */
+    String[] encabezado = {"Documento","Nombre", "Apellido", "NOº de habitacion", "Tipo de habitacion"};
     public JIFrmEstadiasActivas() {
         initComponents();
+        llenarItems();
+    }
+    public void llenarItems(){
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+        try {
+           setMaximum(true);
+        } catch (Exception e) {
+            System.out.println("No se maximizo correctamente, ERROR:" + e);
+        }
+        Checkin checkin = new Checkin();
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.setColumnIdentifiers(encabezado);
+        
+        for (String[] fila : checkin.EstadiaActiva("Dentro del hotel", 0)) {
+            modelo.addRow(fila);
+        }
+        
+        tableEstadiasActivas.setModel(modelo);
     }
 
     /**

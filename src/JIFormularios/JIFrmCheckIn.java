@@ -151,6 +151,7 @@ public class JIFrmCheckIn extends javax.swing.JInternalFrame {
                            else if (checkin.hacerCheck_in()){
                                habitacion.ModificarEstadoHabitacion("Ocupada", id_habitacion);
                                JOptionPane.showMessageDialog(null, "Ingresado correctamente al hotel");
+                               llenarItems();
                                llenarSinReserva();
                            }else{
                                JOptionPane.showMessageDialog(null, "Error al ingresar al hotel");
@@ -205,7 +206,7 @@ public class JIFrmCheckIn extends javax.swing.JInternalFrame {
         if (checkin.BuscarHuesped(documento)){
             JOptionPane.showMessageDialog(null, "Esta persona ya se encuentra dentro del hotel");
         }else{
-            if (txtEstado.getText().equals("Disponible")){
+            if (txtEstado.getText().equals("Reservada")){
                 huesped = new Huesped(nombre, apellido, documento);
                 if (huesped.AgregarHuesped() != null){
                    if (checkin.hacerCheck_in()){
@@ -461,6 +462,7 @@ public class JIFrmCheckIn extends javax.swing.JInternalFrame {
 
     private void rbSinReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbSinReservaActionPerformed
         // TODO add your handling code here:
+        llenarItems();
         llenarSinReserva();
     }//GEN-LAST:event_rbSinReservaActionPerformed
 

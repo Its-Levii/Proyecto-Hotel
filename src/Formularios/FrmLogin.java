@@ -78,7 +78,6 @@ public class FrmLogin extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtPasword = new javax.swing.JPasswordField();
         btnIniciarSesion = new javax.swing.JButton();
-        lbOlvidasteTuContraseña = new javax.swing.JLabel();
         lbRegistrarse = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -108,9 +107,6 @@ public class FrmLogin extends javax.swing.JFrame {
             }
         });
 
-        lbOlvidasteTuContraseña.setText("¿Olvidaste tu contraseña?");
-        lbOlvidasteTuContraseña.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
         lbRegistrarse.setText("Si no tienes cuenta puedes registrarte aqui");
         lbRegistrarse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbRegistrarse.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -137,10 +133,7 @@ public class FrmLogin extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtUser)
-                            .addComponent(txtPasword)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(lbOlvidasteTuContraseña)
-                                .addGap(10, 10, 10)))))
+                            .addComponent(txtPasword))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 90, Short.MAX_VALUE)
@@ -161,9 +154,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addComponent(txtPasword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnIniciarSesion)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbOlvidasteTuContraseña)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(34, 34, 34)
                 .addComponent(lbRegistrarse)
                 .addGap(0, 55, Short.MAX_VALUE))
         );
@@ -228,7 +219,6 @@ public class FrmLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lbLogo;
-    private javax.swing.JLabel lbOlvidasteTuContraseña;
     private javax.swing.JLabel lbRegistrarse;
     private javax.swing.JPasswordField txtPasword;
     private javax.swing.JTextField txtUser;

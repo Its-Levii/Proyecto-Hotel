@@ -16,9 +16,11 @@ public class JIFrmHabitacionesDisponibles extends javax.swing.JInternalFrame {
     /**
      * Creates new form JIFrmHabitacionesDisponibles
      */
+    Habitacion tipoHabitacion;
     String[] encabezado = {"NOº","Nombre", "Descripcion", "Tarifa", "Estado"};
     public JIFrmHabitacionesDisponibles() {
         initComponents();
+        tipoHabitacion = new Habitacion();
         llenarItems();
     }
     public void llenarItems(){
@@ -31,13 +33,52 @@ public class JIFrmHabitacionesDisponibles extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             System.out.println("No se maximizo correctamente, ERROR:" + e);
         }
-        Habitacion tipoHabitacion = new Habitacion();
-        
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.setColumnIdentifiers(encabezado);
+        tablaHabitacionesDisponibles.setModel(modelo);
+    }
+    public void llenarTodas(){
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.setColumnIdentifiers(encabezado);
         
         for (String[] fila : tipoHabitacion.mostrarHabitaciones()) {
             modelo.addRow(fila);
+        }
+        
+        tablaHabitacionesDisponibles.setModel(modelo);
+    }
+    public void llenarOcupadas(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.setColumnIdentifiers(encabezado);
+        
+        for (String[] fila : tipoHabitacion.mostrarHabitaciones()) {
+            if (fila[4].equals("Ocupada")){
+                modelo.addRow(fila);
+            }
+        }
+        
+        tablaHabitacionesDisponibles.setModel(modelo);
+    }
+    public void llenarDisponible(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.setColumnIdentifiers(encabezado);
+        
+        for (String[] fila : tipoHabitacion.mostrarHabitaciones()) {
+            if (fila[4].equals("Disponible")){
+                modelo.addRow(fila);
+            }
+        }
+        
+        tablaHabitacionesDisponibles.setModel(modelo);
+    }
+    public void llenarReservada(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.setColumnIdentifiers(encabezado);
+        
+        for (String[] fila : tipoHabitacion.mostrarHabitaciones()) {
+            if (fila[4].equals("Reservada")){
+                modelo.addRow(fila);
+            }
         }
         
         tablaHabitacionesDisponibles.setModel(modelo);
@@ -51,12 +92,18 @@ public class JIFrmHabitacionesDisponibles extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        bgMostrarEstados = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         ScrollPaneHabitaciones = new javax.swing.JScrollPane();
         tablaHabitacionesDisponibles = new javax.swing.JTable();
+        rbTodas = new javax.swing.JRadioButton();
+        rbOcupadas = new javax.swing.JRadioButton();
+        rbDisponible = new javax.swing.JRadioButton();
+        rbReservadas = new javax.swing.JRadioButton();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setText("Reporte de las habitaciones disponibles");
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Reporte de las habitaciones");
 
         tablaHabitacionesDisponibles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -71,36 +118,110 @@ public class JIFrmHabitacionesDisponibles extends javax.swing.JInternalFrame {
         ));
         ScrollPaneHabitaciones.setViewportView(tablaHabitacionesDisponibles);
 
+        bgMostrarEstados.add(rbTodas);
+        rbTodas.setText("Todas");
+        rbTodas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbTodasActionPerformed(evt);
+            }
+        });
+
+        bgMostrarEstados.add(rbOcupadas);
+        rbOcupadas.setText("Ocupadas");
+        rbOcupadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbOcupadasActionPerformed(evt);
+            }
+        });
+
+        bgMostrarEstados.add(rbDisponible);
+        rbDisponible.setText("Disponible");
+        rbDisponible.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbDisponibleActionPerformed(evt);
+            }
+        });
+
+        bgMostrarEstados.add(rbReservadas);
+        rbReservadas.setText("Reservadas");
+        rbReservadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbReservadasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(ScrollPaneHabitaciones)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(126, 126, 126)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(123, 123, 123))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(ScrollPaneHabitaciones)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(120, 120, 120)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(123, 123, 123))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(rbTodas)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbOcupadas)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbDisponible)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbReservadas)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rbTodas)
+                    .addComponent(rbOcupadas)
+                    .addComponent(rbDisponible)
+                    .addComponent(rbReservadas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ScrollPaneHabitaciones, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
+                .addComponent(ScrollPaneHabitaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void rbTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbTodasActionPerformed
+        // TODO add your handling code here:
+        llenarTodas();
+    }//GEN-LAST:event_rbTodasActionPerformed
+
+    private void rbOcupadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbOcupadasActionPerformed
+        // TODO add your handling code here:
+        llenarOcupadas();
+    }//GEN-LAST:event_rbOcupadasActionPerformed
+
+    private void rbDisponibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDisponibleActionPerformed
+        // TODO add your handling code here:
+        llenarDisponible();
+    }//GEN-LAST:event_rbDisponibleActionPerformed
+
+    private void rbReservadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbReservadasActionPerformed
+        // TODO add your handling code here:
+        llenarReservada();
+    }//GEN-LAST:event_rbReservadasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane ScrollPaneHabitaciones;
+    private javax.swing.ButtonGroup bgMostrarEstados;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JRadioButton rbDisponible;
+    private javax.swing.JRadioButton rbOcupadas;
+    private javax.swing.JRadioButton rbReservadas;
+    private javax.swing.JRadioButton rbTodas;
     private javax.swing.JTable tablaHabitacionesDisponibles;
     // End of variables declaration//GEN-END:variables
 }

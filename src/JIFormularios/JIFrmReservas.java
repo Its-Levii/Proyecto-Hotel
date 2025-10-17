@@ -87,6 +87,7 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
                     System.out.println(numeroHabitacion);
                     Reserva reserva = new Reserva(documento, numeroHabitacion, fechaEntrada, fechaSalida, id);
                     if (reserva.Reservar()){
+                        habitacion.ModificarEstadoHabitacion("Reservada", numeroHabitacion);
                         JOptionPane.showMessageDialog(null, "Reserva exitosa");
                         llenarItems();
                     }else{

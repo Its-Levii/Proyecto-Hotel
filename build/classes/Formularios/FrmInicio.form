@@ -96,11 +96,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Estad&#xed;as Activas"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem9ActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem10">
+            <MenuItem class="javax.swing.JMenuItem" name="MnEstadiasPorHuesped">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Historial de Estad&#xed;as"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnEstadiasPorHuespedActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

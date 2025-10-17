@@ -53,7 +53,7 @@ public class JIFrmAgregarHabitacion extends javax.swing.JInternalFrame {
                     cantidad = Integer.parseInt(obtener_cantidad);
                     completo = true;
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "❌ la cantidad solo debe contener numeros");
+                    JOptionPane.showMessageDialog(null, "la cantidad solo debe contener numeros");
                 }
                 if (completo){
                     Habitacion habitacion = new Habitacion(cbTipoHabitaciones.getSelectedIndex());

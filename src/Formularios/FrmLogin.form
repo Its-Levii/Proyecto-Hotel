@@ -44,10 +44,6 @@
                           <Component id="jLabel1" max="32767" attributes="0"/>
                           <Component id="txtUser" max="32767" attributes="0"/>
                           <Component id="txtPasword" max="32767" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="lbOlvidasteTuContraseña" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                          </Group>
                       </Group>
                   </Group>
               </Group>
@@ -74,9 +70,7 @@
               <Component id="txtPasword" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btnIniciarSesion" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="lbOlvidasteTuContraseña" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
               <Component id="lbRegistrarse" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="55" max="32767" attributes="0"/>
           </Group>
@@ -120,14 +114,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIniciarSesionActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lbOlvidasteTuContrase&#xf1;a">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="&#xbf;Olvidaste tu contrase&#xf1;a?"/>
-        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Hand Cursor"/>
-        </Property>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lbRegistrarse">
       <Properties>
