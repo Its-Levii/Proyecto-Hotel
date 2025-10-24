@@ -4,6 +4,9 @@
  */
 package JIFormularios;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 import proyectohotel.Checkin;
 import proyectohotel.Habitacion;
@@ -70,6 +73,39 @@ public class JIFrmCheckIn extends javax.swing.JInternalFrame {
         cbHabitaciones.setEnabled(false);
         btnRegistrarIngreso.setEnabled(false);
         completo = true;
+        actualizarEstadosReservas();
+    }
+    public void actualizarEstadosReservas(){
+        reserva.ModificarReservas();
+        for (String[] fila : reserva.ReservasDeUsuario(0)) {
+            LocalDate fechaHuesped = null, fechaSalida = null, fechaActual = null;
+            int id_habitacion = Integer.parseInt(fila[4]);
+            try {
+                String fechaActualString = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                fechaActual = LocalDate.parse(fechaActualString);
+                System.out.println(fechaActualString);
+
+                String fechaString = fila[5];
+                fechaHuesped = LocalDate.parse(fechaString);
+                System.out.println("Fecha convertida: " + fechaHuesped);
+                
+                String fechaSalidaString = fila[6];
+                fechaSalida = LocalDate.parse(fechaSalidaString);
+                System.out.println("Fecha convertida: " + fechaHuesped);
+
+                } catch (Exception e) {
+                    System.out.println("Error al convertir la fecha: " + e.getMessage());
+                }
+            if(fechaHuesped.isEqual(fechaActual) && fila[7].equals("Pendiente")){
+                habitacion.ModificarEstadoHabitacion("Reservada", id_habitacion);
+            }else if(fechaHuesped.isBefore(fechaActual) && fechaSalida.isAfter(fechaActual) || fechaSalida.isEqual(fechaActual) && fila[7].equals("Pendiente")){
+                habitacion.ModificarEstadoHabitacion("Reservada", id_habitacion);
+            }
+            else if (fechaSalida.isBefore(fechaActual) && fila[7].equals("Expirada") && habitacion.mostrarHabitaciones().get(id_habitacion-1)[4].equals("Reservada")){
+                habitacion.ModificarEstadoHabitacion("Disponible", id_habitacion);
+            }
+        }
+        
     }
     public void llenarSinReserva(){
         lbNombre.setEnabled(true);
@@ -146,7 +182,16 @@ public class JIFrmCheckIn extends javax.swing.JInternalFrame {
                         huesped = new Huesped(nombre, apellido, documento);
                         if (huesped.AgregarHuesped() != null){
                            if (reserva.buscarreserva(documento, "Pendiente")){
-                               JOptionPane.showMessageDialog(null, "Esta persona ya tiene reserva");
+                               try {
+                                String fechaString = reserva.DatosReserva(documento)[3];
+                                LocalDate fecha = LocalDate.parse(fechaString);
+                                System.out.println("Fecha convertida: " + fecha);
+                                } catch (Exception e) {
+                                    System.out.println("Error al convertir la fecha: " + e.getMessage());
+                                }
+                                JOptionPane.showMessageDialog(null, "Esta persona ya tiene reserva \n puedes revisar el estado de su reserva en reservas");
+                                System.out.println(reserva.DatosReserva(documento)[3]);
+                                System.out.println(reserva.DatosReserva(documento)[4]);
                            }
                            else if (checkin.hacerCheck_in()){
                                habitacion.ModificarEstadoHabitacion("Ocupada", id_habitacion);
@@ -181,13 +226,34 @@ public class JIFrmCheckIn extends javax.swing.JInternalFrame {
             }
             if (todo_lleno){
                 if (reserva.buscarreserva(documento, "Pendiente")){
+                    LocalDate fechaHuesped = null, fechaActual = null;
+                    try {
+                        String fechaActualString = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                        fechaActual = LocalDate.parse(fechaActualString);
+                        System.out.println(fechaActualString);
+
+                        String fechaString = reserva.DatosReserva(documento)[3];
+                        fechaHuesped = LocalDate.parse(fechaString);
+                        System.out.println("Fecha convertida: " + fechaHuesped);
+
+                    } catch (Exception e) {
+                        System.out.println("Error al convertir la fecha: " + e.getMessage());
+                    }
                     txtNombre.setText(huesped.datosHuesped(documento)[0]);
                     txtApellido.setText(huesped.datosHuesped(documento)[1]);
                     txtNumero.setText(reserva.DatosReserva(documento)[2]);
                     txtEstado.setText(habitacion.mostrarHabitaciones().get(Integer.parseInt(reserva.DatosReserva(documento)[2])-1)[4]);
                     txtTarifa.setText(habitacion.mostrarHabitaciones().get(Integer.parseInt(reserva.DatosReserva(documento)[2])-1)[3]);
-                    btnRegistrarIngreso.setEnabled(true);
-                }else{
+                    if (fechaHuesped.isAfter(fechaActual)){
+                        JOptionPane.showMessageDialog(null, "La reserva esta programada para la fecha: " + fechaHuesped);
+                    }else{
+                        btnRegistrarIngreso.setEnabled(true);
+                    }
+                }
+                else if (reserva.buscarreserva(documento, "Expirada")){
+                    JOptionPane.showMessageDialog(null, "Ya la reserva expiro");
+                }
+                else{
                     if (reserva.buscarreserva(documento, "Confirmada")){
                         JOptionPane.showMessageDialog(null, "Ya la persona ingreso al hotel");
                     }else{

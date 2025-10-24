@@ -55,6 +55,8 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
         }
         DateEntrada.setDate(null);
         DateSalida.setDate(null);
+        DateEntrada.setMinSelectableDate(new Date());
+        DateSalida.setMinSelectableDate(new Date());
         completo = true;
     }
     public void Reservar(){
@@ -87,7 +89,6 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
                     System.out.println(numeroHabitacion);
                     Reserva reserva = new Reserva(documento, numeroHabitacion, fechaEntrada, fechaSalida, id);
                     if (reserva.Reservar()){
-                        habitacion.ModificarEstadoHabitacion("Reservada", numeroHabitacion);
                         JOptionPane.showMessageDialog(null, "Reserva exitosa");
                         llenarItems();
                     }else{
@@ -125,6 +126,7 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
         btnReservar = new javax.swing.JButton();
         DateEntrada = new com.toedter.calendar.JDateChooser();
         DateSalida = new com.toedter.calendar.JDateChooser();
+        rbPrueba = new javax.swing.JRadioButton();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Hacer una reserva");
@@ -154,6 +156,13 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
         btnReservar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReservarActionPerformed(evt);
+            }
+        });
+
+        rbPrueba.setText("Prueba");
+        rbPrueba.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbPruebaActionPerformed(evt);
             }
         });
 
@@ -204,10 +213,14 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
                 .addGap(189, 189, 189)
                 .addComponent(btnReservar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(199, 199, 199))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(rbPrueba)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -234,7 +247,9 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
                     .addComponent(DateEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(15, 15, 15)
                 .addComponent(btnReservar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(rbPrueba)
+                .addGap(10, 10, 10))
         );
 
         pack();
@@ -244,6 +259,14 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         Reservar();
     }//GEN-LAST:event_btnReservarActionPerformed
+
+    private void rbPruebaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbPruebaActionPerformed
+        // TODO add your handling code here:
+        if (rbPrueba.isSelected()){
+             DateEntrada.setMinSelectableDate(null);
+             DateSalida.setMinSelectableDate(null);
+        }
+    }//GEN-LAST:event_rbPruebaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -258,6 +281,7 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JRadioButton rbPrueba;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtDocumento;
     private javax.swing.JTextField txtNombre;

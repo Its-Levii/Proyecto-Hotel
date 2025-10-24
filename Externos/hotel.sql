@@ -58,6 +58,10 @@ CREATE TABLE reserva (
     FOREIGN KEY (id_habitacion) REFERENCES habitacion(id_habitacion),
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
+select count(*) from reserva;
+
+UPDATE reserva SET fecha_entrada = '2025-10-23' WHERE id_reserva = 3;
+UPDATE reserva SET Estado = 'Pendiente' WHERE id_reserva = 3;
 
 select * from usuario;
 select * from reserva;
@@ -79,3 +83,9 @@ VALUES ('Julian', 'Henry', 'Masculino', 'hiitslevi240211@gmail.com', '123456', '
 
 INSERT INTO usuario (nombre, apellido, genero, correo, contrasena, fecha_nacimiento, departamento, ciudad, rol)
 VALUES ('Olmar', 'Lopez', 'Masculino', 'davidlopezarteaga22@gmail.com', '220066', '2006-12-22', 'Magdalena', 'Santa Marta', 'admin');
+
+INSERT INTO usuario (nombre, apellido, genero, correo, contrasena, fecha_nacimiento, departamento, ciudad, rol)
+VALUES ('Prueba', 'Empleado', 'Masculino', 'pruebaempleado@gmail.com', '123456', '2006-12-22', 'Magdalena', 'Santa Marta', 'empleado');
+
+INSERT INTO usuario (nombre, apellido, genero, correo, contrasena, fecha_nacimiento, departamento, ciudad, rol)
+VALUES ('Prueba', 'Cliente', 'Masculino', 'pruebacliente@gmail.com', '123456', '2006-12-22', 'Magdalena', 'Santa Marta', 'usuario');

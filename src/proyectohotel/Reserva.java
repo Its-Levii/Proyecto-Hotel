@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 
 public class Reserva {
@@ -102,7 +103,7 @@ public class Reserva {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM reserva WHERE documento_huesped = ?";
+            String sql = "SELECT * FROM reserva WHERE documento_huesped = ? And estado = 'Pendiente'";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             
@@ -217,6 +218,46 @@ public class Reserva {
         } catch (Exception e) {
             System.out.println("Error al buscar reserva: " + e.getMessage());
             return null;
+        }
+    }
+    
+     //Esta parte es para actualizar las reservas y habitaciones :)
+    
+    public boolean ModificarReservas(){
+        try{
+            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
+            
+            String sql = "SELECT * FROM reserva";
+            PreparedStatement Recibir = conexion.prepareStatement(sql);
+            ResultSet resultado = Recibir.executeQuery();
+            
+            LocalDate fechaHuesped = null, fechaActual = null;
+            
+            while (resultado.next()) {
+                int documento = resultado.getInt("documento_huesped");
+                String fecha = resultado.getString("fecha_entrada");
+                String estado = resultado.getString("estado");
+                System.out.println(documento);
+                try {
+                String fechaActualString = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                fechaActual = LocalDate.parse(fechaActualString);
+                System.out.println(fechaActualString);
+
+                String fechaString = resultado.getString("fecha_salida");
+                fechaHuesped = LocalDate.parse(fechaString);
+                System.out.println("Fecha convertida: " + fechaHuesped);
+
+                } catch (Exception e) {
+                    System.out.println("Error al convertir la fecha: " + e.getMessage());
+                }
+                if(fechaHuesped.isBefore(fechaActual) && estado.equals("Pendiente")){
+                    ModificarEstadoReserva("Expirada", documento);
+                }
+            }
+            return true;   
+        } catch (Exception e) {
+            System.out.println("Error al modificar reserva: " + e.getMessage());
+            return false;
         }
     }
 }
