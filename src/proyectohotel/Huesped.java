@@ -15,10 +15,10 @@ import java.sql.SQLException;
  * @author Levi
  */
 public class Huesped {
-    
-    String urlBase = "jdbc:mysql://localhost:3306/hotel";
-    String usuarioBase = "root";
-    String contraseñaBase = "cbn2016";
+    Conexion conexion = new Conexion();
+    String urlBase = conexion.urlBase;
+    String usuarioBase = conexion.usuarioBase;
+    String contraseñaBase = conexion.contraseñaBase;
     
     private String nombre;
     private String apellido;
@@ -36,7 +36,7 @@ public class Huesped {
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
 
 
-            String sql = "INSERT INTO huesped (nombre, apellido, documento) VALUES (?, ?, ?)";
+            String sql = "call agregarHuesped(?, ?, ?)";
 
 
             PreparedStatement Enviar = conexion.prepareStatement(sql);
@@ -70,7 +70,7 @@ public class Huesped {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM huesped WHERE documento = ?";
+            String sql = "call verHuesped(?)";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             

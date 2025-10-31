@@ -15,9 +15,10 @@ import javax.swing.JOptionPane;
  * @author Levi
  */
 public class TipoHabitacion {
-    String urlBase = "jdbc:mysql://localhost:3306/hotel";
-    String usuarioBase = "root";
-    String contraseñaBase = "cbn2016";
+    Conexion conexion = new Conexion();
+    String urlBase = conexion.urlBase;
+    String usuarioBase = conexion.usuarioBase;
+    String contraseñaBase = conexion.contraseñaBase;
     
     
     private String nombre;
@@ -38,7 +39,7 @@ public class TipoHabitacion {
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
 
 
-            String sql = "INSERT INTO tipohabitacion (nombre, descripcion, tarifa) VALUES (?, ?, ?)";
+            String sql = "call insertarHabitacion(?, ?, ?)";
 
 
             PreparedStatement Enviar = conexion.prepareStatement(sql);
@@ -70,7 +71,7 @@ public class TipoHabitacion {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM tipohabitacion";
+            String sql = "call mostrarHabitaciones()";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             ResultSet resultado = Recibir.executeQuery();

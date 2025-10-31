@@ -39,15 +39,14 @@ public class FrmInicio extends javax.swing.JFrame {
         Usuario usuario = new Usuario();
         System.out.println(usuario.datosUsuario(id)[9]);
         if (usuario.datosUsuario(id)[9].equals("admin")){
-            MenuReservas.setVisible(false);
-            MenuRegistro.setVisible(false);
             MenuOpcionesHabitaciones.setVisible(false);
+            MnReservasCliente.setVisible(false);
         }
         else if (usuario.datosUsuario(id)[9].equals("empleado")){
             MenuAdmin.setVisible(false);
             MenuReportes.setVisible(false);
             MenuReservas.setVisible(false);
-        }else{
+        }else if (usuario.datosUsuario(id)[9].equals("usuario")){
             MenuAdmin.setVisible(false);
             MenuReportes.setVisible(false);
             MenuRegistro.setVisible(false);

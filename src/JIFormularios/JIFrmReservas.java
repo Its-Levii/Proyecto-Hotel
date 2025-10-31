@@ -7,12 +7,14 @@ package JIFormularios;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import proyectohotel.Checkin;
 import proyectohotel.Habitacion;
 import proyectohotel.Huesped;
 import proyectohotel.Reserva;
+import proyectohotel.Usuario;
 
 /**
  *
@@ -23,14 +25,19 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
     /**
      * Creates new form JIFrmReservas
      */
+    Usuario usuario;
     Habitacion habitacion;
+    Reserva reserva;
     boolean completo = false;
     int id;
     public JIFrmReservas(int id) {
         initComponents();
+        usuario = new Usuario();
         habitacion = new Habitacion();
-        llenarItems();
+        reserva = new Reserva();
         this.id = id;
+        llenarItems();
+        
     }
         public void llenarItems(){
         completo = false;
@@ -43,21 +50,137 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             System.out.println("No se maximizo correctamente, ERROR:" + e);
         }
+        
+        if (usuario.datosUsuario(id)[9].equals("admin")){
+            rbPrueba.setVisible(true);
+        }else{
+            rbPrueba.setVisible(false);
+        }
         txtNombre.setText("");
         txtApellido.setText("");
         txtDocumento.setText("");
         cbHabitaciones.removeAllItems();
-        cbHabitaciones.addItem("Seleccione");
-        for (String[] fila : habitacion.mostrarHabitaciones()) {
-            if (fila[4].equals("Disponible")){
-                cbHabitaciones.addItem(fila[0]+ "   " +fila[1] + "         " + fila[4]);
-            }
-        }
+        cbHabitaciones.addItem("Seleccione la fecha para ver las habitaciones disponibles");
+
         DateEntrada.setDate(null);
         DateSalida.setDate(null);
         DateEntrada.setMinSelectableDate(new Date());
         DateSalida.setMinSelectableDate(new Date());
         completo = true;
+    }
+        public void actualizarCombo(){
+        cbHabitaciones.removeAllItems();
+        cbHabitaciones.addItem("Seleccione");
+
+        LocalDate fechaEntrada = null, fechaSalida = null, fechaEntradaSeleccionada = null, fechaSalidaSeleccionada = null;
+        Date fechaEntradaS = DateEntrada.getDate();
+        Date fechaSalidaS = DateSalida.getDate();
+        String fechaEntradaDisponible = null;
+        String fechaSalidaDisponible = null;
+        String estado;
+        
+        boolean encontrado = false;
+        for (String[] habitacion : habitacion.mostrarHabitaciones()) {
+            encontrado = false;
+            for (String[] disponible : reserva.ReservasDeUsuario(0)) {
+                if (habitacion[0].equals(disponible[4]) && disponible[7].equals("Pendiente")){
+                    fechaEntradaDisponible = disponible[5];
+                    fechaSalidaDisponible = disponible[6];
+                    estado = disponible[7];
+                    encontrado = true;
+                    break;
+                }
+                
+            }
+            if (encontrado){
+
+                try {
+                    fechaEntrada = LocalDate.parse(fechaEntradaDisponible);
+
+                    fechaSalida = LocalDate.parse(fechaSalidaDisponible);
+
+                    String fechaEntradaSeleccionadaString = new SimpleDateFormat("yyyy-MM-dd").format(fechaEntradaS);
+                    String fechaSalidaSeleccionadaString = new SimpleDateFormat("yyyy-MM-dd").format(fechaSalidaS);
+
+                    fechaEntradaSeleccionada = LocalDate.parse(fechaEntradaSeleccionadaString);
+                    fechaSalidaSeleccionada = LocalDate.parse(fechaSalidaSeleccionadaString);
+
+                } catch (Exception e) {
+                        System.out.println("Error al convertir la fecha: " + e.getMessage());
+                }
+                if (fechaEntradaSeleccionada.isBefore(fechaEntrada) && fechaSalidaSeleccionada.isBefore(fechaEntrada)){
+                    String fechaActual = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                    Date fechaSelect = DateEntrada.getDate();
+                    try {
+                        fechaEntrada = LocalDate.parse(fechaActual);
+                        
+                        String fechaEntradaSeleccionadaString = new SimpleDateFormat("yyyy-MM-dd").format(fechaSelect);
+                        fechaEntradaSeleccionada = LocalDate.parse(fechaEntradaSeleccionadaString);
+                    } catch (Exception e) {
+                        System.out.println("Error al convertir la fecha: " + e.getMessage());
+                    }
+                    if (fechaEntradaSeleccionada.isEqual(fechaEntrada)){
+                        if (habitacion[4].equals("Disponible")){
+                            cbHabitaciones.addItem(habitacion[0]+ "   " +habitacion[1]);
+                        }
+                    }else{
+                        cbHabitaciones.addItem(habitacion[0]+ "   " +habitacion[1]);
+                    }
+                }else if(fechaEntradaSeleccionada.isAfter(fechaSalida)){
+                    cbHabitaciones.addItem(habitacion[0]+ "   " +habitacion[1]);
+                }
+            }else{
+                    String fechaActual = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                    Date fechaSelect = DateEntrada.getDate();
+                    try {
+                        fechaEntrada = LocalDate.parse(fechaActual);
+                        
+                        String fechaEntradaSeleccionadaString = new SimpleDateFormat("yyyy-MM-dd").format(fechaSelect);
+                        fechaEntradaSeleccionada = LocalDate.parse(fechaEntradaSeleccionadaString);
+                    } catch (Exception e) {
+                        System.out.println("Error al convertir la fecha: " + e.getMessage());
+                    }
+                    if (fechaEntradaSeleccionada.isEqual(fechaEntrada)){
+                        if (habitacion[4].equals("Disponible")){
+                            cbHabitaciones.addItem(habitacion[0]+ "   " +habitacion[1]);
+                        }
+                    }else{
+                        cbHabitaciones.addItem(habitacion[0]+ "   " +habitacion[1]);
+                    }
+                }
+        }
+
+        }
+    public void validar(){
+        LocalDate fechaEntradaSeleccionada = null, fechaSalidaSeleccionada = null;
+        Date Entrada = DateEntrada.getDate();
+        Date Salida = DateSalida.getDate();
+        boolean todo_lleno = false;
+        if (Entrada == null || Salida == null){
+            JOptionPane.showMessageDialog(null, "Falta fecha por completar");
+        }else{
+            try {
+                String fechaEntrada = new SimpleDateFormat("yyyy-MM-dd").format(Entrada);
+                String fechaSalida = new SimpleDateFormat("yyyy-MM-dd").format(Salida);  
+                
+                fechaEntradaSeleccionada = LocalDate.parse(fechaEntrada);
+                fechaSalidaSeleccionada = LocalDate.parse(fechaSalida);
+                todo_lleno = true;
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Fecha Mal puesta");
+            }
+            if(todo_lleno){
+                if(fechaEntradaSeleccionada.isEqual(fechaSalidaSeleccionada)){
+                    actualizarCombo();
+                }
+                else if (fechaEntradaSeleccionada.isBefore(fechaSalidaSeleccionada)){
+                    actualizarCombo();
+                }else{
+                    JOptionPane.showMessageDialog(null, "La fecha de salida no puede ser inferior a la de entrada");
+                }
+            }
+
+        }
     }
     public void Reservar(){
         String nombre = txtNombre.getText();
@@ -87,7 +210,7 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
                     fechaEntrada = new SimpleDateFormat("yyyy-MM-dd").format(obtener_fechaEntrada);
                     fechaSalida = new SimpleDateFormat("yyyy-MM-dd").format(obtener_fechaSalida);
                     System.out.println(numeroHabitacion);
-                    Reserva reserva = new Reserva(documento, numeroHabitacion, fechaEntrada, fechaSalida, id);
+                    reserva = new Reserva(documento, numeroHabitacion, fechaEntrada, fechaSalida, id);
                     if (reserva.Reservar()){
                         JOptionPane.showMessageDialog(null, "Reserva exitosa");
                         llenarItems();
@@ -127,6 +250,7 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
         DateEntrada = new com.toedter.calendar.JDateChooser();
         DateSalida = new com.toedter.calendar.JDateChooser();
         rbPrueba = new javax.swing.JRadioButton();
+        btnVer = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Hacer una reserva");
@@ -166,6 +290,13 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
             }
         });
 
+        btnVer.setText("Ver habitaciones");
+        btnVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -200,14 +331,13 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(DateEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(30, 30, 30)))
-                        .addGap(125, 125, 125)
+                            .addComponent(DateEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(DateSalida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(40, 40, 40)))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(189, 189, 189)
@@ -243,8 +373,10 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(DateSalida, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(DateEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnVer, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(DateSalida, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                        .addComponent(DateEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(15, 15, 15)
                 .addComponent(btnReservar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, Short.MAX_VALUE)
@@ -268,11 +400,17 @@ public class JIFrmReservas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_rbPruebaActionPerformed
 
+    private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
+        // TODO add your handling code here:
+        validar();
+    }//GEN-LAST:event_btnVerActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser DateEntrada;
     private com.toedter.calendar.JDateChooser DateSalida;
     private javax.swing.JButton btnReservar;
+    private javax.swing.JButton btnVer;
     private javax.swing.JComboBox<String> cbHabitaciones;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

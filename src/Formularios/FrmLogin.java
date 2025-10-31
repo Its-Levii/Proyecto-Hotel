@@ -108,7 +108,7 @@ public class FrmLogin extends javax.swing.JFrame {
         });
 
         lbRegistrarse.setText("Si no tienes cuenta puedes registrarte aqui");
-        lbRegistrarse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbRegistrarse.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         lbRegistrarse.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbRegistrarseMouseClicked(evt);
@@ -134,7 +134,7 @@ public class FrmLogin extends javax.swing.JFrame {
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtUser)
                             .addComponent(txtPasword))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(129, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 90, Short.MAX_VALUE)
                 .addComponent(lbRegistrarse)

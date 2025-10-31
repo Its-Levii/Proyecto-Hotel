@@ -18,9 +18,10 @@ import java.time.LocalDate;
 import java.util.Calendar;
 
 public class Reserva {
-    String urlBase = "jdbc:mysql://localhost:3306/hotel";
-    String usuarioBase = "root";
-    String contraseñaBase = "cbn2016";
+    Conexion conexion = new Conexion();
+    String urlBase = conexion.urlBase;
+    String usuarioBase = conexion.usuarioBase;
+    String contraseñaBase = conexion.contraseñaBase;
     
     private int documento;
     private int id_habitacion;
@@ -45,7 +46,7 @@ public class Reserva {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM reserva WHERE documento_huesped = ? AND estado = ?";
+            String sql = "call buscarReserva(?, ?)";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             
@@ -71,7 +72,7 @@ public class Reserva {
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
 
 
-            String sql = "INSERT INTO reserva (documento_huesped, id_habitacion, fecha_entrada, fecha_salida, estado, fecha_registro, id_usuario) VALUES (?, ?, ?, ? , ?, ?, ?)";
+            String sql = "call hacerReserva(?, ?, ?, ? , ?, ?, ?)";
 
 
             PreparedStatement Enviar = conexion.prepareStatement(sql);
@@ -103,11 +104,12 @@ public class Reserva {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM reserva WHERE documento_huesped = ? And estado = 'Pendiente'";
+            String sql = "call buscarReserva(?, ?)";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             
             Recibir.setString(1, Integer.toString(documento));
+            Recibir.setString(2, "Pendiente");
             
             
             ResultSet resultado = Recibir.executeQuery();
@@ -137,7 +139,7 @@ public class Reserva {
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
 
 
-            String sql = "UPDATE reserva SET estado = ? WHERE documento_huesped = ?";
+            String sql = "call actualizarEstadoReserva(?, ?)";
 
 
             PreparedStatement Enviar = conexion.prepareStatement(sql);
@@ -165,7 +167,7 @@ public class Reserva {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             if(id != 0){
-            String sql = "SELECT id_reserva, documento_huesped, nombre, apellido, id_habitacion, fecha_entrada, fecha_salida, estado, fecha_registro, id_usuario FROM reserva left join huesped on reserva.documento_huesped = huesped.documento WHERE id_usuario = ?";
+            String sql = "call verReservaPorUsuario(?)";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             
@@ -192,7 +194,7 @@ public class Reserva {
             }
             
             else{
-            String sql = "SELECT id_reserva, documento_huesped, nombre, apellido, id_habitacion, fecha_entrada, fecha_salida, estado, fecha_registro, id_usuario FROM reserva left join huesped on reserva.documento_huesped = huesped.documento";
+            String sql = "call verReservas()";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
 
@@ -227,7 +229,7 @@ public class Reserva {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM reserva";
+            String sql = "call verReserva()";
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             ResultSet resultado = Recibir.executeQuery();
             

@@ -17,10 +17,10 @@ import javax.swing.JOptionPane;
  * @author Levi
  */
 public class Checkin {
-    
-    String urlBase = "jdbc:mysql://localhost:3306/hotel";
-    String usuarioBase = "root";
-    String contraseñaBase = "cbn2016";
+    Conexion conexion = new Conexion();
+    String urlBase = conexion.urlBase;
+    String usuarioBase = conexion.usuarioBase;
+    String contraseñaBase = conexion.contraseñaBase;
     
     private int documento;
     private int id_habitacion;
@@ -41,7 +41,7 @@ public class Checkin {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM checkin_checkout WHERE documento = ? AND fecha_Salida is null";
+            String sql = "call buscarHuesped(?)";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             
@@ -67,7 +67,7 @@ public class Checkin {
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
 
 
-            String sql = "INSERT INTO checkin_checkout (documento, id_habitacion, fecha_Entrada, fecha_Salida) VALUES (?, ?, ?, ?)";
+            String sql = "call hacerCheckin(?, ?, ?, ?)";
 
 
             PreparedStatement Enviar = conexion.prepareStatement(sql);
@@ -99,7 +99,7 @@ public class Checkin {
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
 
 
-            String sql = "UPDATE checkin_checkout SET fecha_Salida = ? WHERE documento = ? AND fecha_Salida is null";
+            String sql = "call hacerCheckout(?, ?)";
 
 
             PreparedStatement Enviar = conexion.prepareStatement(sql);
@@ -126,7 +126,7 @@ public class Checkin {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM checkin_checkout WHERE documento = ?";
+            String sql = "call datosCheck(?)";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             

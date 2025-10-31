@@ -16,10 +16,10 @@ import java.util.ArrayList;
  * @author Levi
  */
 public class Habitacion {
-    
-    String urlBase = "jdbc:mysql://localhost:3306/hotel";
-    String usuarioBase = "root";
-    String contraseñaBase = "cbn2016";    
+    Conexion conexion = new Conexion();
+    String urlBase = conexion.urlBase;
+    String usuarioBase = conexion.usuarioBase;
+    String contraseñaBase = conexion.contraseñaBase;  
     
     private int tipo;
     private String estado;
@@ -36,7 +36,7 @@ public class Habitacion {
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
 
 
-            String sql = "INSERT INTO habitacion (id_tipoHabitacion, estado) VALUES (?, ?)";
+            String sql = "call agregarHabitacion(?, ?)";
 
 
             PreparedStatement Enviar = conexion.prepareStatement(sql);
@@ -64,7 +64,7 @@ public class Habitacion {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "select id_habitacion, nombre, descripcion, tarifa, estado from habitacion left join tipohabitacion on tipohabitacion.id_tipoHabitacion = habitacion.id_tipoHabitacion";
+            String sql = "call mostrarHabitacion()";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             ResultSet resultado = Recibir.executeQuery();
@@ -93,7 +93,7 @@ public class Habitacion {
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
 
 
-            String sql = "UPDATE habitacion SET estado = ? WHERE id_habitacion = ?";
+            String sql = "call modificarEstadoHabitacion(?, ?)";
 
 
             PreparedStatement Enviar = conexion.prepareStatement(sql);

@@ -16,10 +16,10 @@ import javax.swing.JOptionPane;
  * @author Levi
  */
 public class Usuario {
-
-    String urlBase = "jdbc:mysql://localhost:3306/hotel";
-    String usuarioBase = "root";
-    String contraseñaBase = "cbn2016";
+    Conexion conexion = new Conexion();
+    String urlBase = conexion.urlBase;
+    String usuarioBase = conexion.usuarioBase;
+    String contraseñaBase = conexion.contraseñaBase;
         
     private String nombre;
     private String apellido;
@@ -49,19 +49,18 @@ public class Usuario {
     public void Conexion(){
         try {
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
-            System.out.println("✅ Conectado exitosamente.");
+            System.out.println("Conectado exitosamente.");
             conexion.close();
             
         } catch (SQLException e) {
-            System.out.println("❌ Error: " + e.getMessage());
+            System.out.println(" Error: " + e.getMessage());
         }
     }
     public boolean Registrar(){
         try {
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
 
-
-            String sql = "INSERT INTO usuario (nombre, apellido, genero, correo, contrasena, fecha_nacimiento, departamento, ciudad, rol) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "call registrarUsuarios(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 
             PreparedStatement Enviar = conexion.prepareStatement(sql);
@@ -102,7 +101,7 @@ public class Usuario {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM usuario WHERE correo = ? AND contrasena = ?";
+            String sql = "call iniciarSesion(?, ?)";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             
@@ -126,7 +125,7 @@ public class Usuario {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
+            String sql = "call datosUsuario(?)";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             
