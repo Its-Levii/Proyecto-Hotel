@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
 
+import java.time.LocalDate;
+
 import proyectohotel.Usuario;
 
 /**
@@ -33,6 +35,131 @@ public class FrmRegistrarse extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         llenarDepartamentos();
         llenarItems();
+    }
+    public void llenarItems(){
+        completo = false;
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtCorreo.setText("");
+        txtContraseña.setText("");
+        txtVerificaContraseña.setText("");
+        
+        ImageIcon logo = new ImageIcon("src/IMG/Logo.png");
+        Image img = logo.getImage().getScaledInstance(lbLogo.getWidth(), lbLogo.getHeight(), Image.SCALE_SMOOTH);
+        lbLogo.setIcon(new ImageIcon(img));
+        
+        
+        cbMes.removeAllItems();
+        cbAño.removeAllItems();
+        cbGenero.removeAllItems();
+        cbDepartamento.removeAllItems();
+        
+        
+        
+        cbMes.addItem("Mes");
+        cbAño.addItem("Año");
+        cbGenero.addItem("Seleccione...");
+        cbDepartamento.addItem("Seleccione...");
+        
+        for (int i = 0; i < ComboMeses.length; i++) {
+            String item = ComboMeses[i];
+            cbMes.addItem(item);
+        }
+        
+        int año = LocalDate.now().getYear();
+        for (int i = año; i >= 1985; i--) {
+            cbAño.addItem(Integer.toString(i));
+        }
+        for (int i = 0; i < ComboGenero.length; i++) {
+            String item = ComboGenero[i];
+            cbGenero.addItem(item);
+        }
+        
+        
+        for (String departamento : ComboDepartamentos.keySet()) {
+            cbDepartamento.addItem(departamento);
+        }
+
+        if (cbDepartamento.getItemCount() > 0) {
+            cbDepartamento.setSelectedIndex(0);
+            actualizarCiudades((String) cbDepartamento.getSelectedItem());
+        }
+        completo = true;
+    }
+    private void actualizarDias(){
+        cbDia.removeAllItems();
+        cbDia.addItem("Dia");
+        if (completo){
+            if (cbAño.getSelectedIndex() != 0 && cbMes.getSelectedIndex() != 0){
+                int Año = Integer.parseInt((String)cbAño.getSelectedItem());
+                int Mes = cbMes.getSelectedIndex();
+                int Dia = YearMonth.of(Año, Mes).lengthOfMonth();
+                for (int i = 1; i <= Dia; i++) {
+                cbDia.addItem(Integer.toString(i));
+                }
+            }
+        }
+    }
+    private void actualizarCiudades(String departamento) {
+        cbCiudad.removeAllItems();
+        cbCiudad.addItem("Seleccione...");
+        String[] ciudades = ComboDepartamentos.get(departamento);
+        if (ciudades != null) {
+            for (String ciudad : ciudades) {
+                cbCiudad.addItem(ciudad);
+            }
+        }
+    }
+    public void Registrarse(){
+        String nombre = txtNombre.getText();
+        String apellido = txtApellido.getText();
+        String genero = (String) cbGenero.getSelectedItem();
+        String correo = txtCorreo.getText();
+        String contraseña = String.valueOf(txtContraseña.getPassword());
+        String verificarContraseña = String.valueOf(txtVerificaContraseña.getPassword());
+        String fechaDeNacimiento = "";
+        String departamento = (String) cbDepartamento.getSelectedItem();
+        String ciudad = (String) cbCiudad.getSelectedItem();
+        String rol = "usuario";
+        try {
+            if (nombre.trim().isEmpty() || apellido.trim().isEmpty() || cbGenero.getSelectedIndex()== 0 || correo.isEmpty() || contraseña.trim().isEmpty() || verificarContraseña.trim().isEmpty() ||
+                    cbDia.getSelectedIndex()== 0 || cbMes.getSelectedIndex()== 0 || cbAño.getSelectedIndex()== 0 || cbDepartamento.getSelectedIndex()== 0 || cbCiudad.getSelectedIndex()== 0){
+                JOptionPane.showMessageDialog(null, "Faltan campos por completar");
+                
+                System.out.println("Todos los parametros deben estar llenos");
+            }
+            else{
+                if (contraseña.equals(verificarContraseña)){
+                    if (correo.endsWith("@gmail.com")) {
+                        try {
+                            String Dia = String.format("%02d", Integer.parseInt((String)cbDia.getSelectedItem()));
+                            String Mes =  String.format("%02d", cbMes.getSelectedIndex());
+                            String Año = (String) cbAño.getSelectedItem();          
+                            fechaDeNacimiento = String.format("%s/%s/%s", Año, Mes, Dia);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "Fecha Mal Puseta");
+                    }
+                    Usuario usuario = new Usuario(nombre, apellido, genero, correo, contraseña, fechaDeNacimiento, departamento, ciudad, rol);
+                    System.out.println("Enviado correctamente a Usuario");
+                    boolean registrado = usuario.Registrar();
+                    if (registrado){
+                        llenarItems();   
+                    }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El correo debe terminar en @gmail.com");
+                    }
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Las Contraseñas No Coinciden!!");
+                    System.out.println(contraseña +" La Otra "+ verificarContraseña);
+                }
+                
+            }
+            
+        } catch (Exception e) {
+            System.out.println("Error al enviar a Usuario");
+        }
+
     }
     public void llenarDepartamentos(){
         ComboDepartamentos.put("AMAZONAS" , new String[]{"El Encanto", "La Chorrera", "La Pedrera", "La Victoria", "Leticia", "Miriti - Paraná",
@@ -262,132 +389,6 @@ public class FrmRegistrarse extends javax.swing.JFrame {
         ComboDepartamentos.put("VICHADA", new String[] {
             "Cumaribo", "La Primavera", "Puerto Carreño", "Santa Rosalía", "San José de Ocune"
         });
-    }
-    public void llenarItems(){
-        completo = false;
-        txtNombre.setText("");
-        txtApellido.setText("");
-        txtCorreo.setText("");
-        txtContraseña.setText("");
-        txtVerificaContraseña.setText("");
-        
-        ImageIcon logo = new ImageIcon("src/IMG/Logo.png");
-        Image img = logo.getImage().getScaledInstance(lbLogo.getWidth(), lbLogo.getHeight(), Image.SCALE_SMOOTH);
-        lbLogo.setIcon(new ImageIcon(img));
-        
-        
-        cbMes.removeAllItems();
-        cbAño.removeAllItems();
-        cbGenero.removeAllItems();
-        cbDepartamento.removeAllItems();
-        
-        
-        
-        cbMes.addItem("Mes");
-        cbAño.addItem("Año");
-        cbGenero.addItem("Seleccione...");
-        cbDepartamento.addItem("Seleccione...");
-        
-        for (int i = 0; i < ComboMeses.length; i++) {
-            String item = ComboMeses[i];
-            cbMes.addItem(item);
-        }
-        for (int i = 2025; i >= 1985; i--) {
-            cbAño.addItem(Integer.toString(i));
-        }
-        for (int i = 0; i < ComboGenero.length; i++) {
-            String item = ComboGenero[i];
-            cbGenero.addItem(item);
-        }
-        
-        
-        
-        
-        for (String departamento : ComboDepartamentos.keySet()) {
-            cbDepartamento.addItem(departamento);
-        }
-
-    // Selecciona el primer departamento por defecto
-        if (cbDepartamento.getItemCount() > 0) {
-            cbDepartamento.setSelectedIndex(0);
-            actualizarCiudades((String) cbDepartamento.getSelectedItem());
-        }
-        completo = true;
-    }
-    private void actualizarDias(){
-        cbDia.removeAllItems();
-        cbDia.addItem("Dia");
-        if (completo){
-            if (cbAño.getSelectedIndex() != 0 && cbMes.getSelectedIndex() != 0){
-                int Año = Integer.parseInt((String)cbAño.getSelectedItem());
-                int Mes = cbMes.getSelectedIndex();
-                int Dia = YearMonth.of(Año, Mes).lengthOfMonth();
-                for (int i = 1; i <= Dia; i++) {
-                cbDia.addItem(Integer.toString(i));
-                }
-            }
-        }
-    }
-    private void actualizarCiudades(String departamento) {
-        cbCiudad.removeAllItems();
-        cbCiudad.addItem("Seleccione...");
-        String[] ciudades = ComboDepartamentos.get(departamento);
-        if (ciudades != null) {
-            for (String ciudad : ciudades) {
-                cbCiudad.addItem(ciudad);
-            }
-        }
-    }
-    public void Registrarse(){
-        String nombre = txtNombre.getText();
-        String apellido = txtApellido.getText();
-        String genero = (String) cbGenero.getSelectedItem();
-        String correo = txtCorreo.getText();
-        String contraseña = String.valueOf(txtContraseña.getPassword());
-        String verificarContraseña = String.valueOf(txtVerificaContraseña.getPassword());
-        String fechaDeNacimiento = "";
-        String departamento = (String) cbDepartamento.getSelectedItem();
-        String ciudad = (String) cbCiudad.getSelectedItem();
-        String rol = "usuario";
-        try {
-            if (nombre.trim().isEmpty() || apellido.trim().isEmpty() || cbGenero.getSelectedIndex()== 0 || correo.isEmpty() || contraseña.trim().isEmpty() || verificarContraseña.trim().isEmpty() ||
-                    cbDia.getSelectedIndex()== 0 || cbMes.getSelectedIndex()== 0 || cbAño.getSelectedIndex()== 0 || cbDepartamento.getSelectedIndex()== 0 || cbCiudad.getSelectedIndex()== 0){
-                JOptionPane.showMessageDialog(null, "Faltan campos por completar");
-                
-                System.out.println("Todos los parametros deben estar llenos");
-            }
-            else{
-                if (contraseña.equals(verificarContraseña)){
-                    if (correo.endsWith("@gmail.com")) {
-                        try {
-                            String Dia = String.format("%02d", Integer.parseInt((String)cbDia.getSelectedItem()));
-                            String Mes =  String.format("%02d", cbMes.getSelectedIndex());
-                            String Año = (String) cbAño.getSelectedItem();          
-                            fechaDeNacimiento = String.format("%s/%s/%s", Año, Mes, Dia);
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, "Fecha Mal Puseta");
-                    }
-                    Usuario usuario = new Usuario(nombre, apellido, genero, correo, contraseña, fechaDeNacimiento, departamento, ciudad, rol);
-                    System.out.println("Enviado correctamente a Usuario");
-                    boolean registrado = usuario.Registrar();
-                    if (registrado){
-                        llenarItems();   
-                    }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "El correo debe terminar en @gmail.com");
-                    }
-                }
-                else{
-                    JOptionPane.showMessageDialog(null, "Las Contraseñas No Coinciden!!");
-                    System.out.println(contraseña +" La Otra "+ verificarContraseña);
-                }
-                
-            }
-            
-        } catch (Exception e) {
-            System.out.println("Error al enviar a Usuario");
-        }
-
     }
     /**
      * This method is called from within the constructor to initialize the form.

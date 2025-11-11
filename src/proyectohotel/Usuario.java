@@ -4,6 +4,7 @@
  */
 package proyectohotel;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -54,6 +55,46 @@ public class Usuario {
             
         } catch (SQLException e) {
             System.out.println(" Error: " + e.getMessage());
+        }
+    }
+    public boolean RegistrarEmpleado(){
+        try {
+            Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
+
+            String sql = "{? = CALL  añadir_empleado(?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+
+
+            CallableStatement Enviar = conexion.prepareCall(sql);
+
+            Enviar.registerOutParameter(1, java.sql.Types.VARCHAR);
+            
+            Enviar.setString(2, nombre);
+            Enviar.setString(3, apellido);
+            Enviar.setString(4, genero);
+            Enviar.setString(5, correo);
+            Enviar.setString(6, contraseña);
+            Enviar.setString(7, fechaNacimiento);
+            Enviar.setString(8, departamento);
+            Enviar.setString(9, ciudad);
+            Enviar.setString(10, rol);
+
+
+            Enviar.execute();
+
+            System.out.println("Registro insertado correctamente en la base de datos");
+            String contrasenaGenerada = Enviar.getString(1);
+            JOptionPane.showMessageDialog(null, "Registro insertado correctamente.\nLa Contraseña generada es:\n"+ contrasenaGenerada);
+            conexion.close();
+            return true;
+
+        } catch (SQLException e) {
+            if (e.getMessage().contains("Duplicate entry") && e.getMessage().contains("usuario.correo")) {
+                JOptionPane.showMessageDialog(null, "Este correo ya esta registrado");
+            } else {
+                System.out.println("Error al insertar en la base de datos: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Error al registrarse");
+            }
+            return false;
         }
     }
     public boolean Registrar(){

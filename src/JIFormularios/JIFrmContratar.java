@@ -7,6 +7,8 @@ package JIFormularios;
 import javax.swing.JOptionPane;
 import proyectohotel.Usuario;
 
+import java.time.LocalDate;
+
 import java.time.YearMonth;
 /**
  *
@@ -54,8 +56,8 @@ public class JIFrmContratar extends javax.swing.JInternalFrame {
             String item = ComboMeses[i];
             cbMes.addItem(item);
         }
-        
-        for (int i = 2025; i >= 1985; i--) {
+        int año = LocalDate.now().getYear();
+        for (int i = año; i >= 1985; i--) {
             cbAño.addItem(Integer.toString(i));
         }
         for (int i = 0; i < ComboGenero.length; i++) {
@@ -116,7 +118,7 @@ public class JIFrmContratar extends javax.swing.JInternalFrame {
                     if (todo_bien_puesto){
                         Usuario usuario = new Usuario(nombre, apellido, genero, correo, obtener_documento, fechaDeNacimiento, departamento, ciudad, rol);
                         System.out.println("Enviado correctamente a Usuario");
-                        boolean registrado = usuario.Registrar();
+                        boolean registrado = usuario.RegistrarEmpleado();
                         if (registrado){
                             llenarItems();
                         }

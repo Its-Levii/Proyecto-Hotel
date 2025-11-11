@@ -229,6 +229,45 @@ end //
 DELIMITER ;
 
 
+DELIMITER $$
+CREATE TRIGGER crear_contraseña_empleado
+BEFORE INSERT ON usuario
+FOR EACH ROW
+BEGIN
+    IF NEW.rol = 'empleado' THEN
+        SET NEW.contrasena = CONCAT( UPPER(LEFT(NEW.nombre,2)), NEW.contrasena );
+    END IF;
+END$$
+DELIMITER ;
+
+
+
+
+DELIMITER $$
+CREATE FUNCTION añadir_empleado(
+    añadir_nombre VARCHAR(50),
+    añadir_apellido VARCHAR(50),
+    añadir_genero ENUM('Masculino', 'Femenino', 'Otro'),
+    añadir_correo VARCHAR(100),
+    añadir_contrasena VARCHAR(255),
+    añadir_fecha_nacimiento DATE,
+    añadir_departamento VARCHAR(100),
+    añadir_ciudad VARCHAR(100),
+    añadir_rol ENUM('admin', 'usuario', 'empleado')
+)
+RETURNS VARCHAR(100)
+DETERMINISTIC
+BEGIN
+INSERT INTO usuario 
+(nombre, apellido, genero, correo, contrasena, fecha_nacimiento, departamento, ciudad, rol)
+VALUES
+(añadir_nombre, añadir_apellido, añadir_genero, añadir_correo, añadir_contrasena, añadir_fecha_nacimiento, añadir_departamento, añadir_ciudad, añadir_rol);
+    RETURN CONCAT(UPPER(LEFT(añadir_nombre,2)), añadir_contrasena);
+END$$;
+DELIMITER ;
+
+select * from usuario;
+
 INSERT INTO usuario (nombre, apellido, genero, correo, contrasena, fecha_nacimiento, departamento, ciudad, rol)
 VALUES ('Julian', 'Henry', 'Masculino', 'hiitslevi240211@gmail.com', '123456', '2001-12-24', 'Magdalena', 'Santa Marta', 'admin');
 
