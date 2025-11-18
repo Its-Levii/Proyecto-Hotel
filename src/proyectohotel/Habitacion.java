@@ -71,12 +71,13 @@ public class Habitacion {
             
             
             while (resultado.next()) {
-            String[] fila = new String[5];
+            String[] fila = new String[6];
             fila[0] = resultado.getString("id_habitacion");
             fila[1] = resultado.getString("nombre");
             fila[2] = resultado.getString("descripcion");
             fila[3] = resultado.getString("tarifa");
             fila[4] = resultado.getString("estado");
+            fila[5] = resultado.getString("hora_limpieza");
 
             lista.add(fila);
             }
@@ -87,20 +88,21 @@ public class Habitacion {
             return null;
         }
     }
-    
-        public boolean ModificarEstadoHabitacion(String estado, int habitacionSeleccionada) {
+        
+        public boolean ModificarEstadoHabitacion(String estado, String fechaLimpieza,int habitacionSeleccionada) {
         try {
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
 
-
-            String sql = "call modificarEstadoHabitacion(?, ?)";
+            
+            String sql = "call modificarEstadoHabitacion(?, ?, ?)";
 
 
             PreparedStatement Enviar = conexion.prepareStatement(sql);
 
 
             Enviar.setString(1, estado);
-            Enviar.setString(2, Integer.toString(habitacionSeleccionada));
+            Enviar.setString(2, fechaLimpieza);
+            Enviar.setString(3, Integer.toString(habitacionSeleccionada));
 
 
             int filasAfectadas = Enviar.executeUpdate();

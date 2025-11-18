@@ -25,7 +25,8 @@ CREATE TABLE habitacion (
     id_habitacion INT AUTO_INCREMENT PRIMARY KEY,
     id_tipoHabitacion int not null,
     foreign key (id_tipoHabitacion) references tipoHabitacion(id_tipoHabitacion),
-    estado enum('Disponible','Ocupada','Reservada') not null
+    estado enum('Disponible','Ocupada','Reservada', 'En limpieza') not null,
+    hora_limpieza varchar(50)
     );
     
 CREATE TABLE huesped (
@@ -183,16 +184,23 @@ end //
 DELIMITER ;
 
 DELIMITER //
+CREATE PROCEDURE mostrarTipoHabitacion()
+begin select id_tipoHabitacion, nombre, descripcion, tarifa from tipoHabitacion;
+end //
+DELIMITER ;
+
+DELIMITER //
 CREATE PROCEDURE mostrarHabitacion()
-begin select id_habitacion, nombre, descripcion, tarifa, estado from habitacion left join tipohabitacion on tipohabitacion.id_tipoHabitacion = habitacion.id_tipoHabitacion;
+begin select id_habitacion, nombre, descripcion, tarifa, estado, hora_limpieza from habitacion left join tipohabitacion on tipohabitacion.id_tipoHabitacion = habitacion.id_tipoHabitacion;
 end //
 DELIMITER ;
 
 DELIMITER //
 CREATE PROCEDURE modificarEstadoHabitacion(
-in habitacion_estado enum('Disponible','Ocupada','Reservada'),
+in habitacion_estado enum('Disponible','Ocupada','Reservada', 'En limpieza'),
+in fechaLimpieza varchar(50),
 in habitacion_id int)
-begin UPDATE habitacion SET estado = habitacion_estado WHERE id_habitacion = habitacion_id;
+begin UPDATE habitacion SET estado = habitacion_estado, hora_limpieza = fechaLimpieza WHERE id_habitacion = habitacion_id;
 end //
 DELIMITER ;
 
@@ -239,9 +247,6 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
-
-
-
 
 DELIMITER $$
 CREATE FUNCTION añadir_empleado(

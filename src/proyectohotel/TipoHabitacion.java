@@ -71,7 +71,7 @@ public class TipoHabitacion {
         try{
             Connection conexion = DriverManager.getConnection(urlBase, usuarioBase, contraseñaBase);
             
-            String sql = "call mostrarHabitaciones()";
+            String sql = "call mostrarTipoHabitacion()";
             
             PreparedStatement Recibir = conexion.prepareStatement(sql);
             ResultSet resultado = Recibir.executeQuery();

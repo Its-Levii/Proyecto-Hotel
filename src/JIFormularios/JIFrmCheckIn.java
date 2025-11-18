@@ -5,7 +5,10 @@
 package JIFormularios;
 
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 import proyectohotel.Checkin;
@@ -74,6 +77,42 @@ public class JIFrmCheckIn extends javax.swing.JInternalFrame {
         btnRegistrarIngreso.setEnabled(false);
         completo = true;
         actualizarEstadosReservas();
+        actualizarHabitacion();
+    }
+    public void actualizarHabitacion(){
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        for (String[] fila : habitacion.mostrarHabitaciones()) {
+            if (fila[5] != null){
+                String estado = "Disponible";
+                String fechaLista = null;
+                int id_habitacion = Integer.parseInt(fila[0]);
+                        
+                LocalDateTime fechaLimpieza = null, fechaActual = null;
+                boolean listo = false;
+                try {
+                String fechaActualString = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
+                fechaActual = LocalDateTime.parse(fechaActualString, formato);
+                System.out.println(fechaActualString);
+
+                String fechaString = fila[5];
+                fechaLimpieza = LocalDateTime.parse(fechaString, formato);
+                System.out.println("Fecha convertida: " + fechaLimpieza);
+                
+                listo = true;
+                } catch (Exception e) {
+                    System.out.println("Error al convertir la fecha: " + e.getMessage());
+                }
+                if (listo){
+                    Duration duracion = Duration.between(fechaLimpieza, fechaActual);
+                    long minutos = duracion.toMinutes();
+                    long horas = duracion.toHours();
+                    if (minutos >= 1){
+                        habitacion.ModificarEstadoHabitacion(estado, fechaLista, id_habitacion);
+                    }
+                }
+
+            }
+        }
     }
     public void actualizarEstadosReservas(){
         reserva.ModificarReservas();
@@ -97,12 +136,12 @@ public class JIFrmCheckIn extends javax.swing.JInternalFrame {
                     System.out.println("Error al convertir la fecha: " + e.getMessage());
                 }
             if(fechaHuesped.isEqual(fechaActual) && fila[7].equals("Pendiente")){
-                habitacion.ModificarEstadoHabitacion("Reservada", id_habitacion);
+                habitacion.ModificarEstadoHabitacion("Reservada", null, id_habitacion);
             }else if(fechaHuesped.isBefore(fechaActual) && fechaSalida.isAfter(fechaActual) || fechaSalida.isEqual(fechaActual) && fila[7].equals("Pendiente")){
-                habitacion.ModificarEstadoHabitacion("Reservada", id_habitacion);
+                habitacion.ModificarEstadoHabitacion("Reservada", null, id_habitacion);
             }
             else if (fechaSalida.isBefore(fechaActual) && fila[7].equals("Expirada") && habitacion.mostrarHabitaciones().get(id_habitacion-1)[4].equals("Reservada")){
-                habitacion.ModificarEstadoHabitacion("Disponible", id_habitacion);
+                habitacion.ModificarEstadoHabitacion("Disponible", null, id_habitacion);
             }
         }
         
@@ -194,7 +233,7 @@ public class JIFrmCheckIn extends javax.swing.JInternalFrame {
                                 System.out.println(reserva.DatosReserva(documento)[4]);
                            }
                            else if (checkin.hacerCheck_in()){
-                               habitacion.ModificarEstadoHabitacion("Ocupada", id_habitacion);
+                               habitacion.ModificarEstadoHabitacion("Ocupada", null, id_habitacion);
                                JOptionPane.showMessageDialog(null, "Ingresado correctamente al hotel");
                                llenarItems();
                                llenarSinReserva();
@@ -276,7 +315,7 @@ public class JIFrmCheckIn extends javax.swing.JInternalFrame {
                 huesped = new Huesped(nombre, apellido, documento);
                 if (huesped.AgregarHuesped() != null){
                    if (checkin.hacerCheck_in()){
-                       habitacion.ModificarEstadoHabitacion("Ocupada", id_habitacion);
+                       habitacion.ModificarEstadoHabitacion("Ocupada", null, id_habitacion);
                        reserva.ModificarEstadoReserva("Confirmada", documento);
                        JOptionPane.showMessageDialog(null, "Ingresado correctamente al hotel");
                        llenarReservado();
@@ -321,6 +360,7 @@ public class JIFrmCheckIn extends javax.swing.JInternalFrame {
         rbSinReserva = new javax.swing.JRadioButton();
         rbReservado = new javax.swing.JRadioButton();
         btnBuscarReserva = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
 
         lbNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbNombre.setText("Nombre");
@@ -403,6 +443,13 @@ public class JIFrmCheckIn extends javax.swing.JInternalFrame {
             }
         });
 
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -462,18 +509,26 @@ public class JIFrmCheckIn extends javax.swing.JInternalFrame {
                                 .addGap(200, 200, 200)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lbDocumento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(57, 57, 57))
-                            .addComponent(txtDocumento)
-                            .addComponent(btnBuscarReserva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(16, 16, 16))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lbDocumento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(57, 57, 57))
+                                    .addComponent(txtDocumento)
+                                    .addComponent(btnBuscarReserva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(16, 16, 16))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnActualizar)
+                                .addContainerGap())))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
-                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(btnActualizar))
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rbSinReserva)
                     .addComponent(rbReservado))
@@ -550,9 +605,16 @@ public class JIFrmCheckIn extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_txtDocumentoMouseClicked
 
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+        llenarItems();
+        llenarSinReserva();
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgIngreso;
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBuscarReserva;
     private javax.swing.JButton btnRegistrarIngreso;
     private javax.swing.JComboBox<String> cbHabitaciones;

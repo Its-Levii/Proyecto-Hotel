@@ -79,6 +79,7 @@ public class FrmLogin extends javax.swing.JFrame {
         txtPasword = new javax.swing.JPasswordField();
         btnIniciarSesion = new javax.swing.JButton();
         lbRegistrarse = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Home");
@@ -107,13 +108,16 @@ public class FrmLogin extends javax.swing.JFrame {
             }
         });
 
-        lbRegistrarse.setText("Si no tienes cuenta puedes registrarte aqui");
-        lbRegistrarse.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lbRegistrarse.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbRegistrarse.setText("registrar cliente aqui");
+        lbRegistrarse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbRegistrarse.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbRegistrarseMouseClicked(evt);
             }
         });
+
+        jLabel3.setText("Si  el cliente no tiene cuenta puedes");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -129,16 +133,17 @@ public class FrmLogin extends javax.swing.JFrame {
                         .addComponent(btnIniciarSesion))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(115, 115, 115)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtUser)
-                            .addComponent(txtPasword))))
-                .addContainerGap(129, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 90, Short.MAX_VALUE)
-                .addComponent(lbRegistrarse)
-                .addGap(88, 88, 88))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addComponent(lbRegistrarse))
+                            .addComponent(jLabel3)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtUser)
+                                .addComponent(txtPasword, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(97, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,9 +159,11 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addComponent(txtPasword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnIniciarSesion)
-                .addGap(34, 34, 34)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbRegistrarse)
-                .addGap(0, 55, Short.MAX_VALUE))
+                .addGap(0, 49, Short.MAX_VALUE))
         );
 
         pack();
@@ -218,6 +225,7 @@ public class FrmLogin extends javax.swing.JFrame {
     private javax.swing.JButton btnIniciarSesion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lbLogo;
     private javax.swing.JLabel lbRegistrarse;
     private javax.swing.JPasswordField txtPasword;

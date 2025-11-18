@@ -4,6 +4,8 @@
  */
 package JIFormularios;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 import proyectohotel.Checkin;
 import proyectohotel.Habitacion;
@@ -91,9 +93,10 @@ public class JIFrmCheckOut extends javax.swing.JInternalFrame {
     public void DesalojarHuesped(){
         int documento = Integer.parseInt(txtDocumento.getText());
         int id_habitacion = Integer.parseInt(txtNumeroHabitacion.getText());
-        String estado = "Disponible";
+        String estado = "En limpieza";
+        String fechaLimpieza = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
         if (checkout.hacerCheck_Out(documento)){
-            habitacion.ModificarEstadoHabitacion(estado, id_habitacion);
+            habitacion.ModificarEstadoHabitacion(estado, fechaLimpieza, id_habitacion);
             if (reserva.ModificarEstadoReserva("Expirada", documento)){
                 System.out.println("reserva modificada correctamente");
             }else{
